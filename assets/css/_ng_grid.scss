@@ -1,0 +1,277 @@
+@use 'sass:map';
+@use 'sass:color';
+@use 'sass:math';
+@use 'ng_variables' as *;
+
+/* ===
+NexiGrid — Grid System
+---
+Due sistemi coesistenti: Flex grid (.ng-row + .ng-col-*) per layout 12-col, e
+Lanes grid (.ng-grid + .ng-lanes-*) per auto-flow/dashboard. Gutter, offset,
+order, allineamenti, gap, wide/span, fallback responsive. Token da $ng-breakpoints.
+---
+Version: 1.0 · Status: stable
+=== */
+
+/* =============================================================
+FLEX
+============================================================= */
+
+	// ng-row – Riga della griglia
+	.ng-row {
+		display: flex;
+		flex-direction: row;
+		flex-wrap: wrap;
+		box-sizing: border-box;
+
+		&.go-column {
+			flex-direction: column;
+		}
+		&.same-height {
+			align-items: stretch;
+		}
+	}
+
+	// ng-col – Colonna fluida
+	.ng-col {
+		box-sizing: border-box;
+		flex: 1 0 0%;
+		min-width: 0;
+		overflow-wrap: anywhere; word-break: break-word;
+	}
+
+	// Colonne fisse non responsive
+	@for $i from 1 through $ng-grid-columns {
+		$w: math.div(100%, $ng-grid-columns) * $i;
+		.ng-col-#{$i} {
+			flex: 0 0 $w;
+			max-width: $w;
+		}
+	}
+
+	// Colonne responsive
+	@each $label, $width in $ng-breakpoints {
+		@media (min-width: $width) {
+			@for $i from 1 through $ng-grid-columns {
+				$w: math.div(100%, $ng-grid-columns) * $i;
+				.ng-col-#{$label}-#{$i} {
+					flex: 0 0 $w;
+					max-width: $w;
+				}
+			}
+		}
+	}
+
+	// GUTTER – Spaziatura tra colonne (modello half-gutter, allineato ai bordi)
+	// $gap = spazio TRA le colonne. Padding $gap/2 per lato + margine negativo
+	// $gap/2 sulla row → prima/ultima cella allineate ai bordi della section (no
+	// rientro esterno). Gestisce l'accapo (il margine negativo riallinea ogni
+	// riga) e non va mai in overflow (half ≤ padding del container). Stesso
+	// modello di Bootstrap 5; coerente con .ng-gap-#{key}.
+	// row-gap: spazio VERTICALE tra le righe che vanno a capo (es. card in
+	// sequenza). Non tocca la larghezza orizzontale → niente overflow né wrap math.
+	@each $key, $gap in $ng-gap-scale {
+		.ng-gutter-#{$key} {
+			$half: math.div($gap, 2);
+			margin-inline: -$half;
+			row-gap: $gap;
+			> [class*="ng-col"] {
+				padding-inline: $half;
+			}
+		}
+	}
+
+	// Offsets
+	@for $i from 0 through ($ng-grid-columns - 1) {
+		$w: if($i == 0, 0, math.div(100%, $ng-grid-columns) * $i);
+		.ng-offset-#{$i} {
+			margin-left: $w;
+		}
+	}
+
+	@each $label, $width in $ng-breakpoints {
+		@media (min-width: $width) {
+			@for $i from 0 through ($ng-grid-columns - 1) {
+				$w: if($i == 0, 0, math.div(100%, $ng-grid-columns) * $i);
+				.ng-offset-#{$label}-#{$i} {
+					margin-left: $w;
+				}
+			}
+		}
+	}
+
+	// ORDER RESPONSIVE
+	@each $label, $width in $ng-breakpoints {
+		@media (min-width: $width) {
+			@for $i from 0 through $ng-grid-columns {
+				.ng-order-#{$label}-#{$i} {
+					order: $i;
+				}
+			}
+		}
+	}
+
+	// ALLINEAMENTI
+	@each $k, $v in $ng-justify-map {
+		.ng-row-justify-#{$k} {
+			justify-content: $v !important;
+		}
+	}
+	@each $k, $v in $ng-align-map {
+		.ng-row-align-#{$k} {
+			align-items: $v !important;
+		}
+		.ng-col-align-#{$k} {
+			align-self: $v !important;
+		}
+	}
+	@each $k, $v in $ng-alias-vertical {
+		.ng-row-align-#{$k} {
+			align-items: $v !important;
+		}
+		.ng-col-align-#{$k} {
+			align-self: $v !important;
+		}
+	}
+
+	// Fallback mobile globale (stack + no offset) sotto sm
+	@media (max-width: $ng-sm-max) {
+
+		.ng-col,
+		[class^="ng-col-"],
+		[class*=" ng-col-"] {
+			flex: 0 0 100%;
+			max-width: 100%;
+		}
+
+		[class^="ng-offset-"],
+		[class*=" ng-offset-"] {
+			margin-left: 0 !important;
+		}
+
+	}
+	@media (max-width: #{map.get($ng-breakpoints, "lg") - 1}) {
+
+		.ng-col-stack {
+			flex: 0 0 100% !important;
+			max-width: 100% !important;
+		}
+
+	}
+	@media (max-width: #{map.get($ng-breakpoints, "xlg")}) {
+		.ng-col-balance-2 {
+			flex: 0 0 50%;
+			max-width: 50%;
+		}
+	}
+
+/* =============================================================
+LANES
+============================================================= */
+
+	.ng-grid {
+		display: grid;
+		box-sizing: border-box;
+	}
+
+	// Lanes fisse
+	@for $n from 1 through $ng-lanes-max {
+		.ng-lanes-#{$n} {
+			grid-template-columns: repeat(#{$n}, minmax(0, 1fr));
+		}
+	}
+	@each $bp, $w in $ng-breakpoints {
+		@media (min-width: $w) {
+			@for $n from 1 through $ng-lanes-max {
+				.ng-lanes-#{$bp}-#{$n} {
+					grid-template-columns: repeat(#{$n}, minmax(0, 1fr));
+				}
+			}
+		}
+	}
+
+	// Lanes automatiche
+	@each $taglia, $min in $ng-autolanes-min {
+		.ng-autolanes-#{$taglia} {
+			grid-template-columns: repeat(auto-fit, minmax(#{$min}, 1fr));
+		}
+	}
+	@each $bp, $w in $ng-breakpoints {
+		@media (min-width: $w) {
+			@each $taglia, $min in $ng-autolanes-min {
+				.ng-autolanes-#{$bp}-#{$taglia} {
+					grid-template-columns: repeat(auto-fit, minmax(#{$min}, 1fr));
+				}
+			}
+		}
+	}
+
+	// GAP
+	@each $k, $gap in $ng-gap-scale {
+		.ng-gap-#{$k} {
+			gap: #{$gap};
+		}
+	}
+	@each $bp, $w in $ng-breakpoints {
+		@media (min-width: $w) {
+			@each $k, $gap in $ng-gap-scale {
+				.ng-gap-#{$bp}-#{$k} {
+					gap: #{$gap};
+				}
+			}
+		}
+	}
+
+	// Posto doppio
+	@for $n from 1 through $ng-grid-columns {
+		.ng-wide-#{$n} {
+			grid-column: span #{$n};
+			flex: none; // Previene interferenze flex
+		}
+	}
+	@each $bp, $w in $ng-breakpoints {
+		@media (min-width: $w) {
+			@for $n from 1 through $ng-grid-columns {
+				.ng-wide-#{$bp}-#{$n} {
+					grid-column: span #{$n};
+				}
+			}
+		}
+	}
+
+	// Flow
+	@each $k, $v in $ng-flow-map {
+		.ng-flow-#{$k} {
+			justify-content: #{$v} !important;
+		}
+	}
+
+	// Stack
+	@each $k, $v in $ng-stack-map {
+		.ng-stack-#{$k} {
+			align-items: #{$v} !important;
+		}
+	}
+
+	// Self
+	@each $k, $v in $ng-stack-map {
+		.ng-self-#{$k} {
+			align-self: #{$v} !important;
+		}
+	}
+
+	// Box
+	.ng-box {
+		min-width: 0;
+		min-height: 0;
+	}
+
+	// Fallback XS per Lanes
+	@media (max-width: $ng-sm-max) {
+		.ng-grid:not(.ng-mobile-grid) {
+			grid-template-columns: 1fr !important;
+		}
+		.ng-grid:not(.ng-mobile-grid) > * {
+			grid-column: 1 / -1;
+		}
+	}

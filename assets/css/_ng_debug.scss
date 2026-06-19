@@ -1,0 +1,14 @@
+// =============================================================
+// Debug visivo (solo demo)
+// =============================================================
+
+.ng-debug {
+
+	background-color: #2d2d44;
+	> .ng-col, > .ng-box {
+		padding: 12px 18px;
+		color: var(--ng-color-white);
+		background-color: #545482;
+		border: 1px solid #f2f2f2;
+	}
+}

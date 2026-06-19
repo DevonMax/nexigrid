@@ -1,0 +1,26 @@
+@use 'sass:map';
+@use 'sass:color';
+@use '../ng_variables' as *;
+
+/* ==========================================================
+NexiGrid — Toggle (Collapsible)
+----------------------------------------------------------
+Target collassabile (.ng-toggle-target) con transizione di
+height/opacity. Stato is-open. JS ng_toggle.js.
+----------------------------------------------------------
+Version: 1.0 · Status: stable
+========================================================== */
+
+	.ng-toggle-target {
+		overflow: hidden;
+		height: 0;
+		opacity: 0;
+		transition:
+			height .25s ease,
+			opacity .2s ease;
+		will-change: height;
+
+		&.is-open {
+			opacity: 1;
+		}
+	}

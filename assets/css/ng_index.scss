@@ -1,0 +1,13 @@
+// ng_index.scss
+// NexiGrid 1.0 — Core entry point
+// Importa esclusivamente i 9 file core. I componenti sono orchestrati da _ng_components.scss.
+// Ordine intenzionale: tokens → reset → tipografia → layout → grid → componenti → helpers (utilities ultime per override) → debug.
+
+@use 'ng_variables';
+@use 'ng_reset';
+@use 'ng_typography';
+@use 'ng_layout';
+@use 'ng_grid';
+@use 'ng_components';
+@use 'ng_helpers';
+@use 'ng_debug';

@@ -1,0 +1,142 @@
+@use 'sass:map';
+@use 'sass:color';
+@use '../ng_variables' as *;
+
+/* ==========================================================
+NexiGrid — Avatar
+----------------------------------------------------------
+Avatar (immagine/iniziali), dot/badge, ring, size system, avatar-group/stack.
+----------------------------------------------------------
+Version: 1.0.1 · Status: stable
+========================================================== */
+
+	.ng-avatar {
+
+		/* radius: default md via fallback-at-use (non dichiarato → :root cascata) */
+		--ng-avatar-bg: var(--ng-fill);
+		--ng-avatar-color: var(--ng-text-muted, #ccc);
+
+		--ng-avatar-border: 0;
+		--ng-avatar-border-color: var(--ng-surface);
+		--ng-avatar-border-group: 3px;
+
+		position: relative;
+
+		display: inline-flex;
+		align-items: center;
+		justify-content: center;
+
+		width: var(--ng-avatar-size, 40px);
+		height: var(--ng-avatar-size, 40px);
+
+		border-radius: var(--ng-avatar-radius, var(--ng-radius-md));
+		background: var(--ng-avatar-bg);
+
+		font-weight: 600;
+		flex: 0 0 auto;
+		overflow: visible;
+
+		border: var(--ng-avatar-border) solid var(--ng-avatar-border-color);
+
+		img {
+			width: 100%;
+			height: 100%;
+			object-fit: cover;
+			border-radius: inherit;
+		}
+
+		&.circle {
+			--ng-avatar-radius: 50%;
+		}
+
+		&.ring {
+			box-shadow:
+				0 0 0 3px var(--ng-g-0, #fff),
+				0 0 0 5px currentColor;
+		}
+	}
+
+	/* =================================================
+	SIZE SYSTEM (UNIFICATO)
+	================================================= */
+
+	.ng-avatar,
+	.ng-avatar-group {
+
+		&.xs   { --ng-avatar-size: 26px; }
+		&.sm   { --ng-avatar-size: 32px; }
+		&.md   { --ng-avatar-size: 40px; }
+		&.md2x { --ng-avatar-size: 50px; }
+		&.lg   { --ng-avatar-size: 70px; }
+		&.lg2x { --ng-avatar-size: 90px; }
+		&.xl   { --ng-avatar-size: 120px; }
+
+	}
+
+	/* =================================================
+	OVERLAY ELEMENTS
+	================================================= */
+
+	.ng-avatar {
+
+		.ng-avatar-dot {
+			position: absolute;
+
+			width: calc(var(--ng-avatar-size) * .25);
+			height: calc(var(--ng-avatar-size) * .25);
+
+			border-radius: 50%;
+			border: 2px solid var(--ng-avatar-border-color);
+			background: transparent;
+
+			bottom: calc(var(--ng-avatar-size) * .04);
+			right: calc(var(--ng-avatar-size) * .04);
+		}
+
+		.ng-avatar-badge {
+			position: absolute;
+			top: 0;
+			right: 0;
+
+			width: 23px;
+			height: 23px;
+
+			display: flex;
+			align-items: center;
+			justify-content: center;
+
+			border-radius: 50%;
+		}
+
+		&.xs .ng-avatar-badge,
+		&.sm .ng-avatar-badge,
+		&.md .ng-avatar-badge { top: -9px; right: -9px; width: 21px; height: 21px; }
+		&.md2x .ng-avatar-badge { top: -6px; right: -6px; }
+		&.lg .ng-avatar-badge { top: -4px; right: -4px; }
+		&.lg2x .ng-avatar-badge { top: -2px; right: -2px; width: 24px; height: 24px; }
+		&.xl  .ng-avatar-badge { top: 6px; right: 6px; width: 26px; height: 26px; }
+	}
+
+	/* =================================================
+	AVATAR GROUP / STACK
+	================================================= */
+
+	.ng-avatar-group {
+		--ng-avatar-gap: -10px;
+
+		display: inline-flex;
+		align-items: center;
+
+		.ng-avatar {
+			/* BUG-005: stesso fallback della regola base — senza, var undefined
+			   (group privo di size class) invalida width/height e l'avatar collassa */
+			width: var(--ng-avatar-size, 40px);
+			height: var(--ng-avatar-size, 40px);
+			margin-left: var(--ng-avatar-gap);
+			border: var(--ng-avatar-border-group) solid var(--ng-avatar-border-color, #fff);
+		}
+
+		.ng-avatar:first-child {
+			margin-left: 0;
+		}
+	}

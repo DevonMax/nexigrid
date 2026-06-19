@@ -1,0 +1,315 @@
+@use 'sass:map';
+@use 'sass:color';
+@use '../ng_variables' as *;
+
+/* ==========================================================
+NexiGrid — Sidebar (componente unificato)
+----------------------------------------------------------
+Sidebar di pagina: struttura (width, sticky, compact/text) +
+menu (header/body/footer, nav, link/trigger, submenu, divider,
+title). Stati is-active/is-open/is-compact, drawer mobile.
+JS ng_sidebar.js. Modello root+scoped (bg/border al global).
+Struttura + var consolidate qui (prima in _ng_layout.scss).
+----------------------------------------------------------
+Version: 1.2.1 · Status: stable
+========================================================== */
+
+	.ng-sidebar {
+
+		/* === Scoped variables === */
+
+		--ng-sidebar-width: 260px;
+		--ng-sidebar-width-compact: 84px;
+		--ng-sidebar-width-text: 220px;
+		--ng-sidebar-gap: .75rem;
+		--ng-sidebar-pad: 1rem;
+		/* radius: default 0 via fallback-at-use (non dichiarato → :root cascata) */
+		--ng-sidebar-bg: var(--ng-surface);
+		--ng-sidebar-border: var(--ng-border-width, 1px) solid var(--ng-color-border, rgba(var(--ng-hover-tint), .08));
+		--ng-sidebar-color: inherit;
+		--ng-sidebar-muted: var(--ng-text-muted);
+		--ng-sidebar-hover: rgba(var(--ng-hover-tint), .045);
+		--ng-sidebar-active: rgba(var(--ng-hover-tint), .12);
+		--ng-sidebar-active-accent: purple;
+		--ng-sidebar-divider: rgba(var(--ng-hover-tint), .08);
+		--ng-sidebar-item-h: 44px;
+		--ng-sidebar-submenu-margin-top: 5px;
+		--ng-sidebar-submenu-bg: transparent;
+		--ng-sidebar-submenu-border: var(--ng-border-width, 1px) solid transparent;
+		--ng-sidebar-submenu-border-radius: var(--ng-radius-0);
+		--ng-sidebar-indent-2: 1.375rem;
+		--ng-sidebar-indent-3: 0.625rem;
+
+		/* === Struttura === */
+
+		flex-shrink: 0;
+		display: flex;
+		flex-direction: column;
+		width: var(--ng-sidebar-width);
+
+		height: 100vh;
+		height: 100dvh;
+
+		position: sticky;
+		top: 0;
+
+		overflow: hidden auto;
+
+		background: var(--ng-sidebar-bg);
+		color: var(--ng-sidebar-color);
+		border-inline-end: var(--ng-sidebar-border);
+
+		transition: width .25s ease, padding .2s ease;
+		z-index: var(--ng-z-sidebar, 200);
+
+		&.is-compact {
+			width: var(--ng-sidebar-width-compact);
+		}
+
+		&.is-text {
+			width: var(--ng-sidebar-width-text);
+		}
+
+		/* ===== Header ===== */
+
+		&-header {
+			display: flex;
+			flex-direction: column;
+			gap: var(--ng-sidebar-gap);
+			padding: var(--ng-sidebar-pad);
+			background: var(--ng-sidebar-bg);
+			z-index: 2;
+		}
+
+		/* ===== Body ===== */
+
+		&-body {
+			display: flex;
+			flex-direction: column;
+			gap: var(--ng-sidebar-gap);
+			flex: 1;
+			min-height: 0;
+			overflow-y: auto;
+			padding: var(--ng-sidebar-pad);
+
+			i { line-height: normal; }
+		}
+
+		/* ===== Footer ===== */
+
+		&-footer {
+
+			display: flex;
+			flex-direction: column;
+			gap: var(--ng-sidebar-gap);
+			padding: var(--ng-sidebar-pad);
+			margin-top: auto;
+			background: var(--ng-sidebar-bg);
+			z-index: 2;
+
+			&.cols-3 {
+				display: grid;
+				grid-template-columns: repeat(3, minmax(0,1fr));
+			}
+
+			&.cols-2 {
+				display: grid;
+				grid-template-columns: repeat(2, minmax(0,1fr));
+			}
+
+			&.cols-1 {
+				display: grid;
+				grid-template-columns: 1fr;
+			}
+		}
+
+		/* ===== Divider ===== */
+
+		&-divider {
+			block-size: 1px;
+			background: var(--ng-sidebar-divider);
+			margin: .25rem 0;
+		}
+
+		/* ===== Title ===== */
+
+		&-title {
+			display: flex;
+			align-items: center;
+			gap: .75rem;
+			min-height: 36px;
+			color: var(--ng-sidebar-muted);
+		}
+
+		/* ===== Nav / list ===== */
+
+		&-nav,
+		&-submenu {
+			display: flex;
+			flex-direction: column;
+			gap: .25rem;
+			margin: 0;
+			padding: 0;
+			list-style: none;
+		}
+
+		/* ===== Submenu ===== */
+
+		&-submenu {
+
+			margin-top: var(--ng-sidebar-submenu-margin-top);
+
+			height: 0;
+			overflow: hidden;
+			transition: height .25s ease;
+
+			/* FIX 1 (sidebar scrollabili): mai comprimere il submenu dentro il
+			   body/sidebar flex con overflow-y → altrimenti viene schiacciato e
+			   l'overflow:hidden clippa le voci, e lo scroll della sidebar muore. */
+			flex-shrink: 0;
+
+			background: transparent;
+			border: 0;
+			padding: 0;
+			/* indent dopo il reset padding:0 (altrimenti veniva azzerato) */
+			padding-inline-start: var(--ng-sidebar-indent-2);
+
+			/* FIX 2: il JS mette [hidden] sui pannelli chiusi, ma la regola UA
+			   [hidden]{display:none} perde contro il display:flex del componente →
+			   restavano flex item fantasma a height 0 che contano 2x il gap tra i
+			   trigger di primo livello. Forziamo display:none sui chiusi. */
+			&[hidden] {
+				display: none;
+			}
+
+			&.is-submenu-active {
+				border-radius: var(--ng-sidebar-submenu-border-radius);
+				background: var(--ng-sidebar-submenu-bg);
+				border: var(--ng-sidebar-submenu-border);
+				padding: .35rem;
+			}
+
+			.ng-sidebar-submenu {
+				padding-inline-start: var(--ng-sidebar-indent-3);
+			}
+		}
+
+		/* ===== Link / trigger ===== */
+
+		&-link,
+		&-trigger {
+			position: relative;
+			display: flex;
+			align-items: center;
+			gap: .75rem;
+			min-height: var(--ng-sidebar-item-h);
+			padding: .625rem .875rem;
+			border-radius: var(--ng-sidebar-radius, var(--ng-radius-0));
+			color: var(--ng-sidebar-color);
+			text-decoration: none;
+			background: transparent;
+			border: 0;
+			cursor: pointer;
+			inline-size: 100%;
+			text-align: left;
+
+			&:hover {
+				background: var(--ng-sidebar-hover);
+			}
+		}
+
+		&-link.is-active,
+		&-link[aria-current="page"],
+		&-trigger.is-active {
+			background: var(--ng-sidebar-active);
+			border-left: 2px solid color-mix(in srgb, var(--ng-sidebar-active) 80%, var(--ng-sidebar-active-accent));
+			border-radius: 0;
+			font-weight: 600;
+		}
+
+		/* ===== Inner elements ===== */
+
+		&-icon,
+		&-check,
+		&-badge,
+		&-chevron {
+			flex-shrink: 0;
+		}
+
+		&-text {
+			min-width: 0;
+			flex: 1;
+		}
+
+		&-icon {
+			display: inline-flex;
+			align-items: center;
+			justify-content: center;
+			font-size: 1rem;
+			line-height: 0;
+		}
+
+		/* ===== Chevron ===== */
+
+		&-chevron {
+			margin-inline-start: auto;
+			transition: transform .2s ease;
+		}
+
+		&-trigger.is-open &-chevron {
+			transform: rotate(90deg);
+		}
+
+		/* ===== State — desktop (compact) ===== */
+
+		.ng-layout.ng-sidebar-compact & {
+			width: 0;
+			min-width: 0;
+			overflow: hidden;
+			border: 0;
+		}
+	}
+
+/* ==========================================================
+Sidebar — toggle visibility
+========================================================== */
+
+	[data-ng-sidebar-toggle] {
+		display: none;
+	}
+
+	.ng-layout.ng-sidebar-always [data-ng-sidebar-toggle] {
+		display: inline-flex;
+	}
+
+	@media (max-width: #{map.get($ng-breakpoints, lg) - 1}) {
+		[data-ng-sidebar-toggle] {
+			display: inline-flex;
+		}
+	}
+
+/* ==========================================================
+Sidebar — mobile behavior (drawer)
+========================================================== */
+
+	@media (max-width: #{map.get($ng-breakpoints, lg) - 1}) {
+
+		.ng-sidebar {
+
+			position: fixed;
+			top: 0;
+			left: 0;
+			bottom: 0;
+
+			width: var(--ng-sidebar-width);
+
+			transform: translateX(-100%);
+			transition: transform .3s ease;
+
+			z-index: calc(var(--ng-z-sidebar, 200) + 10);
+		}
+
+		.ng-layout.ng-sidebar-open .ng-sidebar {
+			transform: translateX(0);
+		}
+	}

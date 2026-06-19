@@ -1,0 +1,348 @@
+@use 'sass:map';
+@use 'sass:color';
+@use '../ng_variables' as *;
+
+/* ==========================================================
+NexiGrid — List
+----------------------------------------------------------
+Liste e list-item (media/content/action), meta-content. Varianti selectable/divided/bordered/flush/hover/clickable/striped/compact/horizontal/tags/tasks.
+----------------------------------------------------------
+Version: 1.0 · Status: stable
+========================================================== */
+
+	.ng-list {
+
+		/* ===== Scoped Variables ===== */
+
+		--ng-list-bg: var(--ng-surface);
+		--ng-list-color: inherit;
+
+		--ng-list-border-color: var(--ng-color-border-light);
+		--ng-list-border-width: var(--ng-border-width, 1px);
+
+		/* radius: default md via fallback-at-use (non dichiarato → :root cascata) */
+
+		--ng-list-item-padding-y: .75rem;
+		--ng-list-item-padding-x: 1rem;
+
+		--ng-list-item-gap: .75rem;
+		--ng-list-item-padding: .75rem;
+
+		--ng-list-hover-bg: rgba(var(--ng-hover-tint), .04);
+		--ng-list-striped-bg: rgba(var(--ng-hover-tint), .02);
+
+		list-style: none;
+		margin: 0;
+		padding: 0;
+
+		background: var(--ng-list-bg);
+		color: var(--ng-list-color);
+
+		border-radius: var(--ng-list-radius, var(--ng-radius-md));
+
+
+		/* ==========================================================
+		ITEM
+		========================================================== */
+
+		.ng-list-item {
+
+			display: flex;
+			align-items: center;
+			flex-wrap: nowrap;
+			gap: var(--ng-list-item-gap);
+			padding: var(--ng-list-item-padding);
+
+			.ng-list-action {
+				margin-left: auto;
+
+				display: flex;
+				align-items: center;
+				gap: .5rem;
+
+				white-space: nowrap;
+
+				a {
+					display: inline-flex;
+					align-items: center;
+				}
+			}
+		}
+
+		/* Active state */
+
+		&.selectable {
+
+			.ng-list-item.is-active {
+				background: rgba(var(--ng-hover-tint), .08);
+				font-weight: 600;
+			}
+
+		}
+
+
+		/* Divider */
+
+		&.divided {
+
+			.ng-list-item + .ng-list-item {
+				border-top:
+					var(--ng-list-border-width)
+					solid
+					var(--ng-list-border-color);
+			}
+
+		}
+
+
+		/* Bordered */
+		&.bordered {
+			border:
+				var(--ng-list-border-width)
+				solid
+				var(--ng-list-border-color);
+		}
+
+		/* Flush */
+		&.flush {
+			border-radius: 0;
+			li {
+				padding-left: 0;
+			}
+		}
+
+		/* Hover */
+		&.hover {
+
+			.ng-list-item:hover {
+				background: var(--ng-list-hover-bg);
+			}
+
+		}
+
+		/* Clickable */
+		&.clickable {
+
+			.ng-list-item {
+				cursor: pointer;
+			}
+
+		}
+
+		/* Striped */
+		&.striped {
+
+			.ng-list-item:nth-child(even) {
+				background: var(--ng-list-striped-bg);
+			}
+
+		}
+
+		/* Compact */
+		&.compact {
+
+			--ng-list-item-padding-y: .5rem;
+			--ng-list-item-padding-x: .75rem;
+
+		}
+
+		/* Horizontal */
+		&.horizontal {
+
+			display: flex;
+			flex-wrap: wrap;
+
+			.ng-list-item {
+				border: 0;
+			}
+
+		}
+
+
+		/* Horizontal Tag style */
+		&.horizontal.tags {
+
+			gap: .5rem;
+			border: 0;
+			background: transparent;
+
+			.ng-list-item {
+
+				padding: .35rem .75rem;
+				border-radius: var(--ng-radius-pill);
+				background: rgba(var(--ng-hover-tint), .06);
+				font-size: .875rem;
+				border: 0;
+
+				&:hover {
+					background: rgba(var(--ng-hover-tint), .12);
+				}
+
+			}
+
+		}
+
+
+		/* ==========================================================
+		Task / Activity List
+		========================================================== */
+
+		&.tasks {
+
+			--ng-task-border-width: 4px;
+			--ng-task-border-color: var(--ng-primary-bg, #4a2a86);
+			--ng-task-checkbox-gap: .75rem;
+
+			.ng-list-item {
+
+				position: relative;
+				align-items: center;
+				padding-left: 1.25rem;
+
+				&::before {
+
+					content: "";
+					position: absolute;
+
+					left: 0;
+					top: .75rem;
+					bottom: .75rem;
+
+					width: var(--ng-task-border-width);
+					border-radius: 2px;
+
+					background: var(--ng-task-border-color);
+
+				}
+
+			}
+
+			.ng-task-check {
+				flex: 0 0 auto;
+				margin-right: var(--ng-task-checkbox-gap);
+				margin-top: .15rem;
+			}
+
+			.ng-task-content {
+				flex: 1 1 auto;
+				min-width: 0;
+			}
+
+			.ng-task-title {
+				font-weight: 600;
+			}
+
+			.ng-task-meta {
+				font-size: .85rem;
+				opacity: .65;
+				margin-top: .25rem;
+			}
+
+			.ng-task-action {
+				flex: 0 0 auto;
+				margin-left: auto;
+			}
+
+		}
+
+
+		/* ==========================================================
+		Shared Structure Blocks
+		========================================================== */
+
+		.ng-list-media {
+			display: flex;
+			flex: 0 0 auto;
+			align-items: center;
+		}
+
+		.ng-list-content {
+			flex: 1 1 auto;
+			min-width: 0;
+		}
+
+		.ng-list-title {
+			font-weight: 600;
+		}
+
+		.ng-list-text {
+			opacity: .7;
+			font-size: .875rem;
+		}
+
+	}
+
+/* ==========================================================
+NG LIST META CONTENT (indipendente)
+========================================================== */
+
+	.ng-list-meta-content {
+
+		display: flex;
+		flex-direction: column;
+		width: 100%;
+
+		/* ITEM */
+
+		.ng-meta-item {
+
+			display: flex;
+			align-items: center;
+			gap: .75rem;
+
+			width: 100%;
+			padding: .75rem 1rem;
+
+		}
+
+		/* LEFT (avatar / icon / badge) */
+
+		.ng-meta-start {
+			flex: 0 0 auto;
+			display: flex;
+			align-items: center;
+		}
+
+		/* CONTENT */
+
+		.ng-meta-body {
+
+			flex: 1 1 auto;
+			min-width: 0;
+
+			display: flex;
+			flex-direction: column;
+			justify-content: center;
+
+		}
+
+		.ng-meta-title {
+			font-weight: 600;
+			line-height: 1.2;
+		}
+
+		.ng-meta-text {
+			font-size: .85rem;
+			opacity: .7;
+			margin-top: 2px;
+		}
+
+		/* RIGHT (badge / icon) */
+
+		.ng-meta-end {
+			flex: 0 0 auto;
+			margin-left: auto;
+
+			display: flex;
+			align-items: center;
+		}
+
+	}
+
+	@each $name, $value in $ng-colors {
+
+		.ng-list.tasks .ng-list-item.#{$name}::before {
+			background: var(--ng-#{$name}-bg, #{map.get($value, bg)});
+		}
+	}
+

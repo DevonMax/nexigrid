@@ -1,0 +1,17 @@
+{
+  "name": "nexigrid",
+  "version": "1.1.0",
+  "description": "Nexigrid — framework CSS + JS proprietario, zero dipendenze.",
+  "style": "assets/css/nexigrid.min.css",
+  "sass": "assets/css/ng_index.scss",
+  "main": "assets/js/ng-all.min.js",
+  "files": [
+    "assets/css",
+    "assets/js",
+    "assets/nexigrid.manifest.json"
+  ],
+  "keywords": ["nexigrid", "css", "framework", "ui", "components", "scss"],
+  "license": "MIT",
+  "repository": { "type": "git", "url": "git+git@github.com:DevonMax/nexigrid.git" },
+  "homepage": "https://nexigrid.org"
+}

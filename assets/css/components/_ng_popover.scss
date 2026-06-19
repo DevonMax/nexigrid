@@ -1,0 +1,194 @@
+@use 'sass:map';
+@use 'sass:color';
+@use '../ng_variables' as *;
+
+/* ==========================================================
+NexiGrid — Popover
+----------------------------------------------------------
+Container anchored. Posizione dinamica/flip via JS
+(ng_popover.js); classe .placement-<side> sincronizzata dopo
+flip. Arrow con .with-arrow, size sm/md/lg, no-shadow,
+is-modal (marker focus-trap JS). Modello root+scoped.
+----------------------------------------------------------
+Version: 1.0 · Status: stable
+========================================================== */
+
+	.ng-popover {
+
+		/* === Scoped variables === */
+
+		--ng-pop-bg: var(--ng-surface);
+		--ng-pop-color: var(--ng-text);
+		--ng-pop-border: var(--ng-border-width, 1px) solid var(--ng-color-border, #e5e5e5);
+		/* radius: default md via fallback-at-use (non dichiarato → :root cascata) */
+		--ng-pop-shadow: 0 12px 28px rgba(0,0,0,.14);
+
+		--ng-pop-padding: 1rem 1.25rem;
+		--ng-pop-min-width: 180px;
+		--ng-pop-max-width: 360px;
+
+		--ng-pop-offset: .5rem;
+		--ng-pop-arrow-size: 8px;
+
+		--ng-pop-transition-speed: .18s;
+		--ng-pop-translate: 6px;
+
+		/* base layout */
+		position: fixed;
+		top: 0;
+		left: 0;
+
+		min-width: var(--ng-pop-min-width);
+		max-width: var(--ng-pop-max-width);
+
+		background: var(--ng-pop-bg);
+		color: var(--ng-pop-color);
+
+		border: var(--ng-pop-border);
+		border-radius: var(--ng-pop-radius, var(--ng-radius-md));
+
+		box-shadow: var(--ng-pop-shadow);
+
+		opacity: 0;
+		transform: translateY(var(--ng-pop-translate));
+		pointer-events: none;
+
+		transition:
+			opacity var(--ng-pop-transition-speed) ease,
+			transform var(--ng-pop-transition-speed) ease;
+
+		z-index: var(--ng-z-popover, 790);
+
+		/* Slot contenuti */
+		.ng-popover-content {
+			padding: var(--ng-pop-padding);
+			display: flex;
+			flex-direction: column;
+			gap: .6rem;
+			min-width: 0;
+		}
+
+		/* Arrow (posizionato dal JS via classe placement) */
+		.ng-popover-arrow {
+
+			position: absolute;
+			width: 0;
+			height: 0;
+			pointer-events: none;
+
+			display: none; /* attivato da .with-arrow */
+		}
+
+		/* Stato aperto */
+		&.is-open {
+			opacity: 1;
+			pointer-events: auto;
+		}
+
+		/* ----- Placement: direzione di entrata animata (slide dal lato di provenienza) ----- */
+
+		&.placement-bottom,
+		&.placement-bottom-start,
+		&.placement-bottom-end {
+			transform: translateY(calc(var(--ng-pop-translate) * -1));
+		}
+
+		&.placement-top,
+		&.placement-top-start,
+		&.placement-top-end {
+			transform: translateY(var(--ng-pop-translate));
+		}
+
+		&.placement-right,
+		&.placement-right-start,
+		&.placement-right-end {
+			transform: translateX(calc(var(--ng-pop-translate) * -1));
+		}
+
+		&.placement-left,
+		&.placement-left-start,
+		&.placement-left-end {
+			transform: translateX(var(--ng-pop-translate));
+		}
+
+		&.is-open {
+			transform: none;
+		}
+
+		/* ----- Arrow per ogni lato (richiede .with-arrow) ----- */
+
+		&.with-arrow .ng-popover-arrow {
+			display: block;
+		}
+
+		/* arrow su BOTTOM → freccia che punta in alto */
+		&.placement-bottom .ng-popover-arrow,
+		&.placement-bottom-start .ng-popover-arrow,
+		&.placement-bottom-end .ng-popover-arrow {
+			top: calc(var(--ng-pop-arrow-size) * -1);
+			/* il JS posiziona il BORDO del box (largo 2*size) sul centro trigger →
+			   compenso metà freccia per centrare il PUNTO */
+			margin-inline: calc(var(--ng-pop-arrow-size) * -1);
+			border-left: var(--ng-pop-arrow-size) solid transparent;
+			border-right: var(--ng-pop-arrow-size) solid transparent;
+			border-bottom: var(--ng-pop-arrow-size) solid var(--ng-pop-bg);
+		}
+
+		&.placement-top .ng-popover-arrow,
+		&.placement-top-start .ng-popover-arrow,
+		&.placement-top-end .ng-popover-arrow {
+			bottom: calc(var(--ng-pop-arrow-size) * -1);
+			margin-inline: calc(var(--ng-pop-arrow-size) * -1);
+			border-left: var(--ng-pop-arrow-size) solid transparent;
+			border-right: var(--ng-pop-arrow-size) solid transparent;
+			border-top: var(--ng-pop-arrow-size) solid var(--ng-pop-bg);
+		}
+
+		&.placement-right .ng-popover-arrow,
+		&.placement-right-start .ng-popover-arrow,
+		&.placement-right-end .ng-popover-arrow {
+			left: calc(var(--ng-pop-arrow-size) * -1);
+			margin-block: calc(var(--ng-pop-arrow-size) * -1);
+			border-top: var(--ng-pop-arrow-size) solid transparent;
+			border-bottom: var(--ng-pop-arrow-size) solid transparent;
+			border-right: var(--ng-pop-arrow-size) solid var(--ng-pop-bg);
+		}
+
+		&.placement-left .ng-popover-arrow,
+		&.placement-left-start .ng-popover-arrow,
+		&.placement-left-end .ng-popover-arrow {
+			right: calc(var(--ng-pop-arrow-size) * -1);
+			margin-block: calc(var(--ng-pop-arrow-size) * -1);
+			border-top: var(--ng-pop-arrow-size) solid transparent;
+			border-bottom: var(--ng-pop-arrow-size) solid transparent;
+			border-left: var(--ng-pop-arrow-size) solid var(--ng-pop-bg);
+		}
+
+		/* ----- Sizing varianti ----- */
+
+		&.sm {
+			--ng-pop-padding: .6rem .8rem;
+			--ng-pop-min-width: 140px;
+			--ng-pop-max-width: 240px;
+			font-size: .8rem;
+		}
+
+		&.md {
+			--ng-pop-padding: .9rem 1.1rem;
+			--ng-pop-max-width: 360px;
+		}
+
+		&.lg {
+			--ng-pop-padding: 1.2rem 1.4rem;
+			--ng-pop-min-width: 260px;
+			--ng-pop-max-width: 520px;
+		}
+
+		/* ----- Modificatori ----- */
+
+		&.no-shadow {
+			box-shadow: none;
+		}
+
+		/* &.is-modal → marker semantico, focus-trap gestito dal JS (nessuno stile) */
+	}

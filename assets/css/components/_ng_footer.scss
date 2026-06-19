@@ -1,0 +1,138 @@
+@use 'sass:map';
+@use 'sass:color';
+@use '../ng_variables' as *;
+
+/* ==========================================================
+NexiGrid — Footer
+----------------------------------------------------------
+Footer di pagina: grid colonne (auto-fit), nav, bottom bar.
+Varianti center/right/inline. Responsive. Var scoped.
+----------------------------------------------------------
+Version: 1.0 · Status: stable
+========================================================== */
+
+	.ng-footer {
+
+		/* Scoped variables */
+		--ng-footer-bg: var(--ng-surface-sunken);
+		--ng-footer-color: var(--ng-text);
+		--ng-footer-font-size: .875rem;
+		--ng-footer-bottom-size: .75rem;
+		--ng-footer-mtop: 40px;
+		--ng-footer-muted: #888;
+		/* hover link footer (default underline; il tema puo' passare a colore:
+		   --ng-footer-link-hover-color: var(--ng-primary); -decoration: none) */
+		--ng-footer-link-hover-color: inherit;
+		--ng-footer-link-hover-decoration: underline;
+
+		width: 100%;
+
+		padding: var(--ng-gap) 0;
+
+		background: var(--ng-footer-bg);
+		color: var(--ng-footer-color);
+		font-size: var(--ng-footer-font-size);
+
+		margin-top: var(--ng-footer-mtop);
+		margin-bottom: 0;
+
+		.ng-footer-grid {
+
+			display: grid;
+			grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
+			gap: var(--ng-gap);
+
+			align-items: center;
+			width: 100%;
+
+			padding-inline: var(--ng-gap);
+		}
+
+		h4 {
+			margin-bottom: 6px;
+		}
+
+		.ng-footer-col {
+
+			text-align: left;
+
+			.ng-footer-nav {
+
+				display: flex;
+				flex-direction: column;
+				align-items: flex-start;
+				justify-content: center;
+				flex-wrap: wrap;
+
+				gap: .5rem;
+
+				a {
+
+					color: inherit;
+					text-decoration: none;
+
+					&:hover {
+						text-decoration: underline;
+					}
+				}
+
+				// Variante inline
+				&.inline {
+					flex-direction: row;
+					align-items: center;
+					gap: 1rem;
+				}
+			}
+		}
+
+		.ng-footer-bottom {
+
+			margin-top: var(--ng-gap);
+			border-top: 1px solid rgba(var(--ng-hover-tint), .1);
+			padding-top: var(--ng-gap);
+
+			font-size: var(--ng-footer-bottom-size);
+			text-align: center;
+
+			color: var(--ng-footer-muted, #888);
+		}
+
+		.ng-footer-col.center,
+		.ng-footer-bottom.center {
+			text-align: center;
+		}
+
+		.ng-footer-col.right,
+		.ng-footer-bottom.right {
+			text-align: right;
+		}
+
+		/* Hover su QUALSIASI link del footer (non solo .ng-footer-nav), esclusi
+		   i .ng-btn. Token-based -> i temi lo sovrascrivono. Stessa specificita'
+		   della regola .ng-footer-nav a:hover ma piu' generica (la include). */
+		a:not(.ng-btn):not([class*="ng-btn-"]):hover {
+			color: var(--ng-footer-link-hover-color);
+			text-decoration: var(--ng-footer-link-hover-decoration);
+			transition: color .12s ease;
+		}
+	}
+
+	@media (max-width: #{map.get($ng-breakpoints, sm) - 1}) {
+
+		.ng-footer {
+			.ng-footer-grid {
+				grid-template-columns: 1fr;
+			}
+
+			.ng-footer-col, .ng-footer-col.right {
+				text-align: center;
+			}
+
+			.ng-footer-col .ng-footer-nav {
+				display: flex;
+				flex-direction: column;
+				align-items: center;
+			}
+		}
+
+	}

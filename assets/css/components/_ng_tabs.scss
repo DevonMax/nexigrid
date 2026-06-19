@@ -1,0 +1,302 @@
+@use 'sass:map';
+@use 'sass:color';
+@use '../ng_variables' as *;
+
+/* ==========================================================
+NexiGrid — Tabs
+----------------------------------------------------------
+Tab nav + content panels. Varianti classic/pills/vertical.
+Stati is-active/is-disabled. JS ng_tabs.js.
+Modello root+scoped: i bordi "standard" puntano al token
+globale (--ng-color-border); gli altri knob sono scoped sul
+componente (override per-istanza/contesto).
+----------------------------------------------------------
+Version: 1.0 · Status: stable
+========================================================== */
+
+	.ng-tabs {
+
+		/* === Scoped variables === */
+
+		--ng-tabs-nav-gap: .5rem;
+		--ng-tabs-nav-border: 1px solid var(--ng-color-border, rgba(229,229,229,1));
+		--ng-tab-panel-scroll-border: 1px solid rgba(var(--ng-hover-tint), .08);
+
+		--ng-tab-color: var(--ng-text-muted);
+		--ng-tab-color-hover: var(--ng-text);
+		--ng-tab-color-active: var(--ng-text);
+
+		--ng-tab-bg-hover: transparent;
+		--ng-tab-bg-active: transparent;
+		--ng-tab-border-active: var(--ng-color-border-middle);
+
+		/* radius: default 0 via fallback-at-use (non dichiarato → :root cascata) */
+
+		--ng-tab-font-size: .9rem;
+		--ng-tab-font-weight: 500;
+		--ng-tab-font-weight-active: 600;
+		--ng-tab-nav-line-height: 1.2;
+
+		--ng-tab-padding-y: 1.4rem;
+		--ng-tab-padding-x: .2rem;
+
+		--ng-tab-panel-padding-y: 1.25rem;
+		--ng-tab-panel-padding-x: 1.25rem;
+
+		--ng-tab-underline-height: 2px;
+		--ng-tab-underline-color: var(--ng-color-border, #ccc);
+
+		--ng-tab-transition: .2s ease;
+
+		display: flex;
+		flex-direction: column;
+
+		/* ===== Nav ===== */
+
+		.ng-tabs-nav {
+
+			display: flex;
+			gap: var(--ng-tabs-nav-gap);
+			border-bottom: var(--ng-tabs-nav-border);
+
+			&.spread {
+				justify-content: space-between;
+			}
+
+			.ng-tab {
+
+				display: inline-flex;
+				align-items: center;
+				justify-content: center;
+				text-align: center;
+
+				background: none;
+				border: 0;
+				margin: 0;
+
+				padding: var(--ng-tab-padding-y) var(--ng-tab-padding-x);
+
+				font: inherit;
+				font-size: var(--ng-tab-font-size);
+				font-weight: var(--ng-tab-font-weight);
+
+				color: var(--ng-tab-color);
+
+				cursor: pointer;
+				position: relative;
+
+				text-decoration: none;
+				line-height: 1;
+
+				appearance: none;        // reset button
+				-webkit-appearance: none;
+
+				transition:
+					color var(--ng-tab-transition),
+					background var(--ng-tab-transition);
+
+				&:hover {
+					color: var(--ng-tab-color-hover);
+					background: var(--ng-tab-bg-hover);
+				}
+
+				&.is-disabled {
+					opacity: .5;
+					pointer-events: none;
+					cursor: not-allowed;
+				}
+
+				&::after {
+					content: "";
+					position: absolute;
+					left: 0;
+					bottom: -1px;
+					width: 100%;
+					height: var(--ng-tab-underline-height);
+					background: var(--ng-tab-underline-color);
+					transform: scaleX(0);
+					transform-origin: left;
+					transition: transform var(--ng-tab-transition);
+				}
+
+				&.is-active {
+					color: var(--ng-tab-color-active);
+					font-weight: var(--ng-tab-font-weight-active);
+					background: var(--ng-tab-bg-active);
+
+					&::after {
+						transform: scaleX(1);
+					}
+				}
+
+				i {
+					line-height: var(--ng-tab-nav-line-height);
+				}
+			}
+
+			&.right {
+				justify-content: flex-end;
+			}
+
+			// Align right tab
+			.ng-tabs-group-right {
+				margin-left: auto;
+				display: flex;
+				gap: var(--ng-tabs-nav-gap);
+				align-items: center;
+			}
+			.ng-dropdown > .ng-dropdown-trigger {
+				display: inline-flex;
+				align-items: center;
+				font: inherit;
+				font-size: var(--ng-tab-font-size);
+				font-weight: var(--ng-tab-font-weight);
+				padding: var(--ng-tab-padding-y) var(--ng-tab-padding-x) 0;
+				color: var(--ng-tab-color);
+				cursor: pointer;
+			}
+			.ng-dropdown > .ng-dropdown-trigger:hover {
+				color: var(--ng-tab-color-hover);
+			}
+		}
+
+		/* ===== Content ===== */
+
+		.ng-tabs-content {
+
+			.ng-tab-panel {
+				display: none;
+				padding: var(--ng-tab-panel-padding-y, 1.25rem) var(--ng-tab-panel-padding-x, 1.25rem);
+
+				&.is-scroll {
+					overflow-y: auto;
+					max-height: 250px;
+					border-bottom: var(--ng-tab-panel-scroll-border);
+					background: linear-gradient(90deg, var(--ng-surface) 0%, var(--ng-surface-sunken) 100%);
+					padding: 10px var(--ng-tab-panel-padding-x);
+				}
+				&.is-active {
+					display: block;
+				}
+			}
+		}
+	}
+
+/* ==========================================================
+Variante Classic (background active)
+========================================================== */
+
+	.ng-tabs.classic {
+
+		--ng-tab-bg-hover: rgba(var(--ng-hover-tint), .08);
+		--ng-tab-bg-active: var(--ng-fill);
+		--ng-tab-border-active: transparent;
+
+		.ng-tabs-nav {
+
+			.ng-tab {
+
+				padding: .3rem .5rem;
+				border: 1px solid var(--ng-tab-border-active);
+				border-bottom: 0;
+				border-radius: var(--ng-tab-radius, var(--ng-radius-0));
+
+				&:hover {
+					background: var(--ng-tab-bg-hover);
+				}
+
+				&.is-active {
+					background: var(--ng-tab-bg-active);
+				}
+				&.is-active:hover {
+					background: var(--ng-tab-bg-hover);
+				}
+			}
+		}
+	}
+
+/* ==========================================================
+Variante Pills
+========================================================== */
+
+	.ng-tabs.pills {
+
+		--ng-tab-padding-y: .45rem;
+		--ng-tab-padding-x: .9rem;
+
+		--ng-tab-pill-bg: var(--ng-surface-sunken);
+		--ng-tab-pill-bg-hover: var(--ng-fill);
+		--ng-tab-pill-bg-active: var(--ng-text);
+		--ng-tab-pill-color-active: var(--ng-surface);
+
+		.ng-tabs-nav {
+
+			border-bottom: 0;
+			gap: .5rem;
+
+			.ng-tab {
+
+				border-radius: var(--ng-radius-pill);
+				background: var(--ng-tab-pill-bg);
+
+				&::after {
+					display: none;
+				}
+
+				&:hover {
+					background: var(--ng-tab-pill-bg-hover);
+				}
+
+				&.is-active {
+					background: var(--ng-tab-pill-bg-active);
+					color: var(--ng-tab-pill-color-active);
+				}
+			}
+		}
+	}
+
+/* ==========================================================
+Variante Vertical
+========================================================== */
+
+	.ng-tabs.vertical {
+
+		flex-direction: row;
+		align-items: flex-start;
+
+		--ng-tabs-vertical-border: 1px solid var(--ng-color-border, #e5e5e5);
+
+		.ng-tabs-nav {
+
+			flex-direction: column;
+			border-bottom: 0;
+			border-right: var(--ng-tabs-vertical-border);
+			padding-right: 1rem;
+			gap: .75rem;
+
+			.ng-tab {
+
+				padding: var(--ng-tab-padding-y) var(--ng-tab-padding-x);
+
+				&::after {
+					left: auto;
+					right: -1rem;
+					top: 0;
+					bottom: 0;
+					width: var(--ng-tab-underline-height);
+					height: 100%;
+					transform: scaleY(0);
+					transform-origin: top;
+				}
+
+				&.is-active::after {
+					transform: scaleY(1);
+				}
+			}
+		}
+
+		.ng-tabs-content {
+			flex: 1 1 auto;
+			padding-left: 1rem;
+		}
+	}

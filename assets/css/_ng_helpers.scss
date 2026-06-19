@@ -1,0 +1,208 @@
+@use 'sass:map';
+@use 'sass:color';
+@use 'sass:math';
+@use 'ng_variables' as *;
+
+/* ===
+NexiGrid — Helpers
+---
+Utility globali: spacing (margin/padding), color (text/bg/border da $ng-colors +
+greys, brand-aware via token), box-shadow, visibility/position, flex, responsive, print.
+---
+Version: 1.0 · Status: stable
+=== */
+
+/* =================================================
+SPACING UTILITIES
+================================================= */
+
+	$spacing-scale: (4, 8, 10, 12, 16, 20, 24, 32, 40, 48, 64, 80, 96, 110, 120, 130, 140);
+
+	@each $size in $spacing-scale {
+
+		$rem: math.div($size, 16) * 1rem;
+		$neg: -$rem;
+
+		/* Margin */
+		.mt-#{$size} { margin-top: $rem; }
+		.mb-#{$size} { margin-bottom: $rem; }
+		.ml-#{$size} { margin-left: $rem; }
+		.mr-#{$size} { margin-right: $rem; }
+
+		.my-#{$size} { margin-top: $rem; margin-bottom: $rem; }
+		.mx-#{$size} { margin-left: $rem; margin-right: $rem; }
+
+		.-mt-#{$size} { margin-top: $neg; }
+		.-mb-#{$size} { margin-bottom: $neg; }
+		.-ml-#{$size} { margin-left: $neg; }
+		.-mr-#{$size} { margin-right: $neg; }
+
+		.-my-#{$size} { margin-top: $neg; margin-bottom: $neg; }
+		.-mx-#{$size} { margin-left: $neg; margin-right: $neg; }
+
+		/* Padding */
+		.pt-#{$size} { padding-top: $rem; }
+		.pb-#{$size} { padding-bottom: $rem; }
+		.pl-#{$size} { padding-left: $rem; }
+		.pr-#{$size} { padding-right: $rem; }
+
+		.py-#{$size} { padding-top: $rem; padding-bottom: $rem; }
+		.px-#{$size} { padding-left: $rem; padding-right: $rem; }
+
+		.pxy-#{$size} { padding: $rem; }
+		.mxy-#{$size} { margin: $rem; }
+
+	}
+
+	.my-zero { margin-top: 0; margin-bottom: 0; }
+	.mx-zero { margin-left: 0; margin-right: 0; }
+	.myx-zero { margin: 0; }
+
+	.py-zero { padding-top: 0; padding-bottom: 0; }
+	.px-zero { padding-left: 0; padding-right: 0; }
+	.pyx-zero { padding: 0; }
+
+/* =================================================
+STRUCTURAL STYLE
+================================================= */
+
+	.ng-density-compact {
+
+		--ng-form-gap: .6rem;
+		--ng-field-gap: .25rem;
+
+		--ng-input-padding-y: .35rem;
+		--ng-input-padding-x: .6rem;
+		--ng-input-font-size: .85rem;
+	}
+	.ng-100 { display: block; width: 100%; }
+	.dd-block { display: block;}
+	.c-def {cursor: default;}
+	.c-point {cursor: pointer;}
+	.c-auto {cursor: auto;}
+
+/* =================================================
+COLOR UTILITIES
+================================================= */
+
+	// Color Global Palette — via token (rebrand da :root propaga), fallback hex
+	@each $name, $set in $ng-colors {
+
+		$bg: map.get($set, bg);
+		$text: map.get($set, text);
+		$border: map.get($set, border);
+
+		[class*="text-"].text-#{$name}   { color: var(--ng-#{$name}-bg, #{$bg}); }
+		[class*="bg-"].bg-#{$name}       { background-color: var(--ng-#{$name}-bg, #{$bg}); color: var(--ng-#{$name}-text, #{$text}); }
+		[class*="border-"].border-#{$name} { border-color: var(--ng-#{$name}-border, #{$border}); }
+
+	}
+
+	// Grey Scale — via token (--ng-g-*), fallback hex
+	@each $name, $color in $ng-grays {
+
+		.text-g-#{$name} {
+			color: var(--ng-g-#{$name}, #{$color}) !important;
+		}
+		.bg-g-#{$name} {
+			background-color: var(--ng-g-#{$name}, #{$color}) !important;
+		}
+		.border-g-#{$name} {
+			border-color: var(--ng-g-#{$name}, #{$color}) !important;
+		}
+
+	}
+
+/* =================================================
+BOX SHADOWS UTILITIES
+================================================= */
+
+	.bs-main-main { box-shadow: var(--ng-tab-box-shadow-main); }
+	.bs-main-alt { box-shadow: var(--ng-tab-box-shadow-alt); }
+
+/* =================================================
+VISIBILITY & POSITION
+================================================= */
+
+	.hidden { display: none !important; }
+	.visible { display: block !important; }
+
+	.mx-auto { margin-left: auto !important; margin-right: auto !important; }
+	.ml-auto { margin-left: auto !important; }
+	.mr-auto { margin-right: auto !important; }
+
+	.fixed-top { position: fixed; top: 0; left: 0; right: 0; }
+	.fixed-bottom { position: fixed; bottom: 0; left: 0; right: 0; }
+	.sticky-top { position: sticky; top: 0; }
+	.sticky-bottom { position: sticky; bottom: 0; }
+
+	.center-text {text-align: center; justify-content: center;}
+	.center-auto {
+		display: block;
+		width: fit-content;
+		margin: 0 auto;
+	}
+	.center-block {
+		display: flex;
+		margin: 0 auto;
+	}
+	.center-center-auto {display: flex; justify-content: center; align-items: center;}
+
+/* =================================================
+FLEX HELPERS
+================================================= */
+
+	.no-shrink { flex: 0 0 auto !important; }
+
+	.f-row { flex-direction: row; }
+	.f-column { flex-direction: column; }
+
+	.jc-start { justify-content: flex-start !important; }
+	.jc-center { justify-content: center !important; }
+	.jc-end { justify-content: flex-end !important; }
+
+	.ji-start { justify-items: start !important; }
+	.ji-center { justify-items: center !important; }
+	.ji-end { justify-items: end !important; }
+
+/* ============================================================
+RESPONSIVE HELPERS
+============================================================ */
+
+	/* HIDE MOBILE (< lg) */
+	@media (max-width: #{map.get($ng-breakpoints, lg) - 1}) {
+		.ng-hide-mobile {
+			display: none !important;
+		}
+	}
+
+	/* HIDE DESKTOP (>= lg) */
+	@media (min-width: #{map.get($ng-breakpoints, lg)}) {
+		.ng-hide-desktop {
+			display: none !important;
+		}
+	}
+
+/* =================================================
+PRINT STRUCTURE
+================================================= */
+
+	.ng-print-show { display: none !important; }
+
+	@media print {
+
+		.ng-print-show { display: initial !important; }
+		.ng-print-hide { display: none !important; }
+
+		.ng-print-break-before { break-before: page !important; }
+		.ng-print-break-after  { break-after: page !important; }
+		.ng-print-avoid-break  { break-inside: avoid !important; }
+
+		img, svg, video { max-width: 100% !important; height: auto !important; }
+
+		pre, code {
+			white-space: pre-wrap !important;
+			word-break: break-word !important;
+			tab-size: 4 !important;
+		}
+	}

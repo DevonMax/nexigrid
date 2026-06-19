@@ -1,0 +1,139 @@
+@use 'sass:map';
+@use 'sass:color';
+@use '../ng_variables' as *;
+
+/* ==========================================================
+NexiGrid — Panel
+----------------------------------------------------------
+Container strutturale/funzionale per raggruppare contenuti in sezioni
+(settings, dashboard, filtri). Opposto della card: piatto, bordato, denso,
+niente shadow/hover-lift. Sub: head/body/foot.
+Varianti: brand header band (.ng-panel-<color>) · .ng-panel-flat · size sm/lg ·
+collassabile .ng-panel-collapsible (riusa ng_toggle.js + .ng-collapse, 0 JS nuovo).
+Colori da $ng-colors (token L1/L2). Radius md via fallback-at-use.
+----------------------------------------------------------
+Version: 1.0 · Status: stable
+========================================================== */
+
+	.ng-panel {
+
+		/* ===== Scoped Variables ===== */
+
+		--ng-panel-bg: var(--ng-surface);
+		--ng-panel-border-color: var(--ng-color-border);
+		--ng-panel-head-bg: transparent;
+		--ng-panel-head-color: inherit;
+		/* radius: default md via fallback-at-use (non dichiarato → :root cascata) */
+		--ng-panel-pad: 1rem 1.25rem;
+		--ng-panel-gap: 1rem;
+
+		display: flex;
+		flex-direction: column;
+		min-width: 0;
+
+		background: var(--ng-panel-bg);
+		border: var(--ng-border-width, 1px) solid var(--ng-panel-border-color);
+		border-radius: var(--ng-panel-radius, var(--ng-radius-md));
+		overflow: hidden; /* clip della head band agli angoli arrotondati */
+
+		/* ===== Head ===== */
+
+		.ng-panel-head {
+			display: flex;
+			align-items: center;
+			justify-content: space-between;
+			gap: var(--ng-panel-gap);
+
+			padding: var(--ng-panel-pad);
+			background: var(--ng-panel-head-bg);
+			color: var(--ng-panel-head-color);
+			border-bottom: var(--ng-border-width, 1px) solid var(--ng-panel-border-color);
+
+			font-weight: 600;
+
+			> h1, > h2, > h3, > h4, > h5, > h6,
+			.ng-panel-title {
+				margin: 0;
+				font-size: 1rem;
+				font-weight: 600;
+				letter-spacing: .01em;
+				line-height: 1.2;
+			}
+		}
+
+		/* ===== Body ===== */
+
+		.ng-panel-body {
+			padding: var(--ng-panel-pad);
+		}
+
+		/* ===== Foot ===== */
+
+		.ng-panel-foot {
+			display: flex;
+			align-items: center;
+			gap: var(--ng-panel-gap);
+
+			padding: var(--ng-panel-pad);
+			border-top: var(--ng-border-width, 1px) solid var(--ng-panel-border-color);
+		}
+	}
+
+/* ==========================================================
+Variante Flat — niente bordo esterno (separatori interni restano)
+========================================================== */
+
+	.ng-panel-flat {
+		border-color: transparent;
+	}
+
+/* ==========================================================
+Sizes — densità del padding interno
+========================================================== */
+
+	.ng-panel-sm { --ng-panel-pad: .6rem .85rem; }
+	.ng-panel-lg { --ng-panel-pad: 1.4rem 1.75rem; }
+
+/* ==========================================================
+Collassabile — .ng-panel-collapsible
+----------------------------------------------------------
+La head fa da trigger (data-ng-toggle="#id"), il body è dentro un .ng-collapse
+con quell'id. Meccanica e ARIA da ng_toggle.js (nessun JS nuovo).
+========================================================== */
+
+	.ng-panel-collapsible {
+
+		.ng-panel-head {
+			cursor: pointer;
+			user-select: none;
+		}
+
+		.ng-panel-toggle-icon {
+			margin-left: auto;
+			transition: transform .25s ease;
+		}
+
+		/* ng_toggle.js mette aria-expanded sulla head (trigger) */
+		.ng-panel-head[aria-expanded="true"] .ng-panel-toggle-icon {
+			transform: rotate(180deg);
+		}
+	}
+
+/* ==========================================================
+SIGNATURE — Brand header band (anti-BS5)
+----------------------------------------------------------
+.ng-panel-<color> dipinge la head col colore brand governato (testo in
+contrasto), niente border-bottom. 0 hardcode, colori da $ng-colors.
+========================================================== */
+
+	@each $name, $set in $ng-colors {
+
+		$bg: map.get($set, bg);
+		$text: map.get($set, text);
+
+		.ng-panel-#{$name} > .ng-panel-head {
+			background: var(--ng-#{$name}-bg, #{$bg});
+			color: var(--ng-#{$name}-text, #{$text});
+			border-bottom: 0;
+		}
+	}

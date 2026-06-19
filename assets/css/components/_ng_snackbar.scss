@@ -1,0 +1,171 @@
+@use 'sass:map';
+@use 'sass:color';
+@use '../ng_variables' as *;
+
+/* ==========================================================
+NexiGrid — Snackbar
+----------------------------------------------------------
+Stack di notifiche (.ng-snackbar-stack) + item .ng-snackbar.
+Varianti fill/soft per colore (da $ng-colors), posizioni
+top/middle/bottom × left/center/right. JS ng_snackbar.js.
+----------------------------------------------------------
+Version: 1.0 · Status: stable
+========================================================== */
+
+	.ng-snackbar-stack {
+
+		--ng-snackbar-gap: var(--ng-gap, 8px);
+		--ng-snackbar-offset: 16px;
+		--ng-snackbar-z: var(--ng-z-snackbar, 775);
+
+		position: fixed;
+		inset-inline-end: var(--ng-snackbar-offset);
+		inset-block-end: var(--ng-snackbar-offset);
+
+		display: flex;
+		flex-direction: column;
+		gap: var(--ng-snackbar-gap);
+
+		z-index: var(--ng-snackbar-z);
+		pointer-events: none;
+	}
+
+	/* ===== Item ===== */
+
+	.ng-snackbar {
+
+		/* radius: default master (3px) via fallback-at-use (→ :root cascata) */
+		--ng-snackbar-padding: 1.6rem 2.4rem;
+		--ng-snackbar-shadow: 0 4px 8px rgba(0,0,0,.2);
+		--ng-snackbar-transition: .25s ease;
+
+		display: flex;
+		align-items: center;
+		gap: .5rem;
+
+		min-width: 240px;
+		max-width: 420px;
+
+		border-radius: var(--ng-snackbar-radius, var(--ng-radius));
+		box-shadow: var(--ng-snackbar-shadow);
+		padding: var(--ng-snackbar-padding);
+
+		pointer-events: auto;
+
+		opacity: 0;
+		transform: translateY(8px);
+
+		transition:
+			opacity var(--ng-snackbar-transition),
+			transform var(--ng-snackbar-transition);
+	}
+
+	.ng-snackbar.is-active {
+		opacity: 1;
+		transform: translateY(0);
+	}
+
+	.ng-snackbar.is-closing {
+		opacity: 0;
+		transform: translateY(8px);
+	}
+
+	/* ===== Content ===== */
+
+	.ng-snackbar-message {
+		display: inline-flex;
+		align-items: center;
+		gap: .5rem;
+
+		flex: 1;
+		min-width: 0;
+	}
+
+	.ng-snackbar-close {
+		display: inline-flex;
+		align-items: center;
+		justify-content: center;
+		cursor: pointer;
+	}
+
+	/* elementi media dentro message */
+	.ng-snackbar-message > .ng-badge,
+	.ng-snackbar-message > .ng-avatar,
+	.ng-snackbar-message > i,
+	.ng-snackbar-message > svg {
+		flex-shrink: 0;
+	}
+
+	/* ===== Variants ===== */
+
+	.ng-snackbar--soft {
+		background: var(--ng-surface, #fff);
+	}
+
+	/* ===== Color system (auto da $ng-colors) ===== */
+
+	@each $name, $set in $ng-colors {
+
+		$bg: map.get($set, bg);
+		$text: map.get($set, text);
+		$border: map.get($set, border);
+		$darker: map.get($set, color-darker);
+		$soft: map.get($set, soft);
+
+		/* --- FILL --- */
+		.ng-snackbar--fill.#{$name} {
+			background: var(--ng-#{$name}-bg, #{$bg});
+			color: var(--ng-#{$name}-text, #{$text});
+			border: 1px solid var(--ng-#{$name}-border, #{$border});
+		}
+
+		/* --- SOFT --- */
+		.ng-snackbar--soft.#{$name} {
+			background: var(--ng-#{$name}-soft, #{$soft});
+			color: var(--ng-#{$name}-dark, #{$darker});
+			border: 1px solid rgba(var(--ng-hover-tint), .08);
+			border-inline-start: 6px solid var(--ng-#{$name}-bg, #{$bg});
+		}
+	}
+
+	/* ===== Position modifiers ===== */
+
+	/* reset base */
+	.ng-snackbar-stack {
+		inset: auto;
+	}
+
+	/* --- Vertical --- */
+	.ng-snackbar-stack.top {
+		inset-block-start: var(--ng-snackbar-offset);
+	}
+
+	.ng-snackbar-stack.middle {
+		inset-block-start: 50%;
+		transform: translateY(-50%);
+	}
+
+	.ng-snackbar-stack.bottom {
+		inset-block-end: var(--ng-snackbar-offset);
+	}
+
+	/* --- Horizontal --- */
+	.ng-snackbar-stack.left {
+		inset-inline-start: var(--ng-snackbar-offset);
+		align-items: flex-start;
+	}
+
+	.ng-snackbar-stack.center {
+		inset-inline-start: 50%;
+		transform: translateX(-50%);
+		align-items: center;
+	}
+
+	.ng-snackbar-stack.right {
+		inset-inline-end: var(--ng-snackbar-offset);
+		align-items: flex-end;
+	}
+
+	.ng-snackbar-stack.middle.center {
+		transform: translate(-50%, -50%);
+	}

@@ -1,0 +1,336 @@
+@use 'sass:map';
+@use 'sass:color';
+@use '../ng_variables' as *;
+
+/* ===
+NexiGrid — Select Orion (select avanzato, select2-like)
+---
+Enhancement del <select> nativo: il select reale resta la source of truth
+(form submit nativo + degrado graceful — il native porta anche .ng-select del
+form per lo stile a JS spento). UI custom: control box, menu listbox top-layer
+(Popover API), ricerca locale, single + multi (chip), gruppi (optgroup),
+opzioni ricche (icona Phosphor + sublabel), placeholder, clear.
+
+COMPONENTE A PARTE: classi tutte .ng-select-orion-* → NESSUNA collisione con
+.ng-select del form (token CSS distinti). Qui NON esiste alcuna regola .ng-select.
+
+Distintivi NG: opzioni ricche + sync opzionale via ng_state (mirror sul native).
+Riusa token --ng-input-* (solo in lettura) e il markup .ng-chip. JS: ng_select_orion.js.
+---
+Version: 1.0.1 · Status: stable
+=== */
+
+	.ng-select-orion {
+
+		/* ===== Scoped Variables ===== */
+		--ng-selor-menu-bg:        var(--ng-surface, #fff);
+		--ng-selor-menu-border:    var(--ng-color-border, #e5e5e5);
+		--ng-selor-menu-radius:    var(--ng-input-radius, 6px);
+		--ng-selor-menu-shadow:    0 10px 30px rgba(0,0,0,.18);
+		--ng-selor-menu-max-h:     280px;
+		--ng-selor-item-padding-y: .55rem;
+		--ng-selor-item-padding-x: .8rem;
+		--ng-selor-item-gap:       .65rem;
+		--ng-selor-item-hover-bg:  rgba(var(--ng-hover-tint, 0,0,0), .06);
+		--ng-selor-item-active-bg: rgba(var(--ng-hover-tint, 0,0,0), .10);
+		--ng-selor-item-selected-color: var(--ng-primary-bg, #4a2a86);
+		--ng-selor-icon-color:     var(--ng-text-muted, #777);
+		--ng-selor-sublabel-color: var(--ng-text-muted, #777);
+		--ng-selor-group-color:    var(--ng-text-muted, #777);
+		--ng-selor-placeholder:    var(--ng-input-placeholder, #999);
+		--ng-selor-z:              var(--ng-z-dropdown_menu, 401);
+
+		/* wrapper del componente (un <div>): nessuna eredità da %ng-input-base
+		   perché NON è .ng-select. Solo contesto di posizionamento. */
+		display: block;
+		position: relative;
+		inline-size: 100%;
+	}
+
+	/* <select> nativo enhanced: nascosto alla vista ma presente nel form
+	   (NON display:none → deve continuare a submit-are). A JS spento NON ha
+	   .is-enhanced → resta visibile e stilizzato dalla .ng-select del form. */
+	.ng-select-orion-native.is-enhanced {
+		position: absolute;
+		width: 1px;
+		height: 1px;
+		padding: 0;
+		margin: -1px;
+		overflow: hidden;
+		clip: rect(0 0 0 0);
+		clip-path: inset(50%);
+		white-space: nowrap;
+		border: 0;
+	}
+
+/* ============================================================
+CONTROL (box) — legge i token --ng-input-* (non li ridefinisce)
+============================================================ */
+
+	.ng-select-orion-control {
+		display: flex;
+		align-items: center;
+		gap: .35rem;
+		inline-size: 100%;
+		min-inline-size: 0;
+
+		padding-block: var(--ng-input-padding-y);
+		padding-inline: var(--ng-input-padding-x);
+
+		border: 1px solid var(--ng-input-color-border);
+		border-radius: var(--ng-input-radius);
+		background: var(--ng-input-bg);
+		/* --ng-input-color non è un token globale → fallback su --ng-text */
+		color: var(--ng-input-color, var(--ng-text, #222));
+
+		font-size: var(--ng-input-font-size);
+		line-height: var(--ng-input-line-height);
+
+		cursor: pointer;
+		transition: border-color .2s ease, box-shadow .2s ease;
+
+		&:focus,
+		&:focus-visible {
+			outline: none;
+			border-color: var(--ng-input-focus-border);
+			box-shadow: var(--ng-input-focus-ring);
+		}
+
+		.ng-select-orion-value {
+			flex: 1 1 auto;
+			min-inline-size: 0;
+			display: flex;
+			flex-wrap: wrap;
+			align-items: center;
+			gap: .35rem;
+
+			overflow: hidden;
+			text-overflow: ellipsis;
+			white-space: nowrap;
+
+			&.is-placeholder { color: var(--ng-selor-placeholder); }
+		}
+
+		.ng-select-orion.is-multiple & .ng-select-orion-value {
+			white-space: normal;
+		}
+
+		.ng-select-orion-clear {
+			flex: 0 0 auto;
+			appearance: none;
+			border: 0;
+			background: none;
+			cursor: pointer;
+			color: var(--ng-text-muted, #777);
+			font-size: 1rem;
+			line-height: 1;
+			padding: 0 .15rem;
+
+			/* Difesa da reset esterni (es. .ng-overlay-body button{display:block;
+			   width:100%}, 0,1,1): questo selettore composto è (0,2,0) e vince →
+			   il clear resta piccolo e inline, non a tutta larghezza centrato. */
+			display: inline-flex;
+			align-items: center;
+			justify-content: center;
+			inline-size: auto;
+			width: auto;
+
+			&:hover { color: var(--ng-text, #222); }
+
+			/* nascondimento (clearBtn.hidden=true) ancorato al componente:
+			   .ng-select-orion-control .ng-select-orion-clear[hidden] = (0,2,1)
+			   > .ng-overlay-body button (0,1,1) → display:none vince. */
+			&[hidden] { display: none; }
+		}
+
+		.ng-select-orion-caret {
+			flex: 0 0 auto;
+			display: inline-flex;
+			align-items: center;
+			color: var(--ng-text-muted, #777);
+			font-size: 1.05em;
+			line-height: 1;
+			transition: transform .15s ease;
+		}
+	}
+
+	.ng-select-orion.is-open .ng-select-orion-caret { transform: rotate(180deg); }
+
+	.ng-select-orion.is-disabled .ng-select-orion-control {
+		background: var(--ng-input-disabled-bg);
+		color: var(--ng-input-disabled-color);
+		cursor: not-allowed;
+	}
+
+	.ng-select-orion.is-multiple .ng-select-orion-control {
+		padding-block: calc(var(--ng-input-padding-y) - .15rem);
+	}
+
+/* ============================================================
+MENU (listbox) — top-layer via Popover API
+============================================================ */
+
+	.ng-select-orion-menu {
+
+		&[popover]:not(:popover-open) { display: none; }
+		&:popover-open { inset: auto; margin: 0; }
+
+		min-inline-size: 200px;
+		max-block-size: var(--ng-selor-menu-max-h);
+		overflow-y: auto;
+
+		background: var(--ng-selor-menu-bg);
+		border: 1px solid var(--ng-selor-menu-border);
+		border-radius: var(--ng-selor-menu-radius);
+		box-shadow: var(--ng-selor-menu-shadow);
+		padding: .25rem;
+
+		z-index: var(--ng-selor-z);
+
+		opacity: 0;
+		transition: opacity .12s ease;
+
+		&.is-open,
+		&:popover-open { opacity: 1; }
+
+		@starting-style {
+			&:popover-open { opacity: 0; }
+		}
+	}
+
+	.ng-select-orion-search {
+		position: sticky;
+		inset-block-start: 0;
+		background: var(--ng-selor-menu-bg);
+		padding: .15rem .15rem .35rem;
+		z-index: 1;
+
+		.ng-select-orion-search-input {
+			inline-size: 100%;
+			padding-block: .4rem;
+			padding-inline: .6rem;
+			border: 1px solid var(--ng-input-color-border);
+			border-radius: var(--ng-input-radius);
+			background: var(--ng-input-bg);
+			color: var(--ng-input-color, var(--ng-text, #222));
+			font-size: .9rem;
+
+			&:focus,
+			&:focus-visible {
+				outline: none;
+				border-color: var(--ng-input-focus-border);
+				box-shadow: var(--ng-input-focus-ring);
+			}
+		}
+	}
+
+/* ============================================================
+ITEMS
+============================================================ */
+
+	.ng-select-orion-item {
+		display: flex;
+		align-items: center;
+		gap: var(--ng-selor-item-gap);
+
+		padding-block: var(--ng-selor-item-padding-y);
+		padding-inline: var(--ng-selor-item-padding-x);
+
+		border-radius: calc(var(--ng-selor-menu-radius) - 2px);
+
+		cursor: pointer;
+		user-select: none;
+		color: var(--ng-text, #222);
+
+		&:hover { background: var(--ng-selor-item-hover-bg); }
+		&.is-active { background: var(--ng-selor-item-active-bg); }
+
+		&.is-selected {
+			color: var(--ng-selor-item-selected-color);
+			font-weight: 600;
+		}
+
+		&[aria-disabled="true"] {
+			opacity: .5;
+			pointer-events: none;
+		}
+
+		.ng-select-orion-icon {
+			flex-shrink: 0;
+			color: var(--ng-selor-icon-color);
+			font-size: 1.1em;
+			line-height: 1;
+			display: inline-flex;
+			align-items: center;
+		}
+
+		.ng-select-orion-body {
+			flex: 1 1 auto;
+			min-inline-size: 0;
+			display: flex;
+			flex-direction: column;
+			gap: .1rem;
+		}
+
+		.ng-select-orion-label {
+			line-height: 1.2;
+			overflow: hidden;
+			text-overflow: ellipsis;
+			white-space: nowrap;
+		}
+
+		.ng-select-orion-sublabel {
+			color: var(--ng-selor-sublabel-color);
+			font-size: .78rem;
+			line-height: 1.2;
+			overflow: hidden;
+			text-overflow: ellipsis;
+			white-space: nowrap;
+		}
+
+		mark {
+			background: transparent;
+			color: inherit;
+			font-weight: 700;
+		}
+	}
+
+/* ============================================================
+GROUPS + STATUS
+============================================================ */
+
+	.ng-select-orion-group {
+		padding-block: .35rem .2rem;
+		padding-inline: var(--ng-selor-item-padding-x);
+		color: var(--ng-selor-group-color);
+		font-size: .72rem;
+		text-transform: uppercase;
+		letter-spacing: .04em;
+		font-weight: 600;
+
+		& + .ng-select-orion-item { margin-top: .15rem; }
+	}
+
+	.ng-select-orion-status {
+		padding-block: var(--ng-selor-item-padding-y);
+		padding-inline: var(--ng-selor-item-padding-x);
+		color: var(--ng-text-muted, #777);
+		font-size: .85rem;
+		text-align: center;
+	}
+
+/* ============================================================
+SIZES (mappano sui token --ng-input-* nel control)
+============================================================ */
+
+	.ng-select-orion-sm .ng-select-orion-control {
+		--ng-input-padding-y: .35rem;
+		--ng-input-padding-x: .6rem;
+		font-size: .875rem;
+	}
+
+	.ng-select-orion-lg .ng-select-orion-control {
+		--ng-input-padding-y: .7rem;
+		--ng-input-padding-x: 1rem;
+		font-size: 1.05rem;
+	}

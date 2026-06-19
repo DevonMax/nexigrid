@@ -1,0 +1,233 @@
+@use 'sass:map';
+@use 'sass:color';
+@use '../ng_variables' as *;
+
+/* ===
+NexiGrid — Input Group
+---
+Wrapper per input + addons (icone, testo, bottoni) prepend/append, multi-addon,
+sizes ereditati. Focus-within propagato all'intero gruppo. Stato disabled
+coerente. Riusa token --ng-input-*. Pattern derivato da .ng-btn-group.
+Password toggle: .ng-password-toggle (occhio mostra/nascondi, JS in ng_form.js).
+---
+Version: 1.1 · Status: stable
+=== */
+
+	.ng-input-group {
+
+		/* ===== Scoped Variables ===== */
+		--ng-ig-addon-bg:      var(--ng-surface-sunken, #f5f5f5);
+		--ng-ig-addon-color:   var(--ng-text-muted, #555);
+		--ng-ig-addon-padding-x: var(--ng-input-padding-x, .75rem);
+
+		display: inline-flex;
+		align-items: stretch;
+		inline-size: 100%;
+		min-inline-size: 0;
+
+		/* Tutti i figli condividono lo stesso "rounded box" complessivo:
+		   - mezzi spigoli a 0
+		   - solo primo a sx e ultimo a dx tengono il radius
+		   - margin negativo per collassare i border duplicati */
+		> .ng-input,
+		> .ng-select,
+		> .ng-textarea,
+		> .ng-btn,
+		> .ng-input-addon {
+			border-radius: 0;
+			margin-inline-start: -1px;
+			position: relative; /* per portare in alto su focus/hover */
+		}
+
+		> *:first-child {
+			margin-inline-start: 0;
+			border-top-left-radius: var(--ng-input-radius);
+			border-bottom-left-radius: var(--ng-input-radius);
+		}
+
+		> *:last-child {
+			border-top-right-radius: var(--ng-input-radius);
+			border-bottom-right-radius: var(--ng-input-radius);
+		}
+
+		/* L'input flessibile occupa lo spazio rimanente */
+		> .ng-input,
+		> .ng-select,
+		> .ng-textarea {
+			flex: 1 1 auto;
+			min-inline-size: 0;
+		}
+
+		/* Hover/focus portano il figlio sopra per non far tagliare il bordo */
+		> .ng-input:hover,
+		> .ng-input:focus,
+		> .ng-input:focus-visible,
+		> .ng-select:hover,
+		> .ng-select:focus,
+		> .ng-select:focus-visible,
+		> .ng-btn:hover,
+		> .ng-btn:focus {
+			z-index: 2;
+		}
+	}
+
+/* ============================================================
+ADDON statico (icona / testo)
+============================================================ */
+
+	.ng-input-addon {
+
+		display: inline-flex;
+		align-items: center;
+		justify-content: center;
+		gap: .35rem;
+
+		padding-block: var(--ng-input-padding-y);
+		padding-inline: var(--ng-ig-addon-padding-x);
+
+		border: 1px solid var(--ng-input-color-border);
+
+		background: var(--ng-ig-addon-bg);
+		color: var(--ng-ig-addon-color);
+
+		font-size: var(--ng-input-font-size);
+		line-height: var(--ng-input-line-height);
+
+		white-space: nowrap;
+		user-select: none;
+
+		/* Icone Phosphor allineate al baseline tipografico dell'input */
+		> i,
+		> svg {
+			font-size: 1.1em;
+			line-height: 1;
+		}
+
+		&.is-disabled,
+		.ng-input-group.is-disabled & {
+			background: var(--ng-input-disabled-bg);
+			color: var(--ng-input-disabled-color);
+		}
+	}
+
+/* Variante: addon "trasparente" (icona dentro fondo input, no fill) */
+	.ng-input-addon-ghost {
+		background: var(--ng-input-bg);
+	}
+
+/* ============================================================
+FOCUS-WITHIN: ring sull'intero gruppo
+============================================================ */
+
+	.ng-input-group:focus-within {
+
+		> .ng-input,
+		> .ng-select,
+		> .ng-input-addon {
+			border-color: var(--ng-input-focus-border);
+		}
+
+		/* Ring complessivo sul gruppo (no doppio shadow per ogni figlio) */
+		box-shadow: var(--ng-input-focus-ring);
+		border-radius: var(--ng-input-radius);
+	}
+
+/* ============================================================
+DISABLED PROPAGATO (input disabilitato → addons coerenti)
+============================================================ */
+
+	.ng-input-group:has(> .ng-input:disabled),
+	.ng-input-group:has(> .ng-select:disabled),
+	.ng-input-group:has(> .ng-textarea:disabled),
+	.ng-input-group.is-disabled {
+
+		> .ng-input-addon {
+			background: var(--ng-input-disabled-bg);
+			color: var(--ng-input-disabled-color);
+		}
+	}
+
+/* ============================================================
+SIZES (mappano sui figli .ng-input / .ng-input-addon / .ng-btn)
+============================================================ */
+
+	.ng-input-group-sm {
+
+		--ng-ig-addon-padding-x: .6rem;
+
+		> .ng-input,
+		> .ng-select,
+		> .ng-textarea,
+		> .ng-input-addon {
+			--ng-input-padding-y: .35rem;
+			--ng-input-padding-x: .6rem;
+			font-size: .875rem;
+		}
+
+		> .ng-btn {
+			padding-block: .35rem;
+			padding-inline: .7rem;
+			font-size: .875rem;
+		}
+	}
+
+	.ng-input-group-lg {
+
+		--ng-ig-addon-padding-x: 1rem;
+
+		> .ng-input,
+		> .ng-select,
+		> .ng-textarea,
+		> .ng-input-addon {
+			--ng-input-padding-y: .7rem;
+			--ng-input-padding-x: 1rem;
+			font-size: 1.05rem;
+		}
+
+		> .ng-btn {
+			padding-block: .7rem;
+			padding-inline: 1.1rem;
+			font-size: 1.05rem;
+		}
+	}
+
+/* ============================================================
+TEXTAREA dentro un input-group: forza align top per non sembrare disallineata
+============================================================ */
+
+	.ng-input-group:has(> .ng-textarea) {
+		align-items: stretch;
+
+		> .ng-input-addon {
+			align-items: flex-start;
+			padding-block-start: var(--ng-input-padding-y);
+		}
+	}
+
+/* ============================================================
+PASSWORD TOGGLE — occhio mostra/nascondi password (JS in ng_form.js).
+È un .ng-input-addon (di norma -ghost) su <button>: il group dà già
+border, radius, sizes, focus-within e disabled; qui solo il reset del
+bottone nativo e gli stati hover/attivo.
+============================================================ */
+
+	.ng-password-toggle {
+
+		appearance: none;
+		-webkit-appearance: none;
+		cursor: pointer;
+		font-family: inherit;
+
+		transition: color .2s ease;
+
+		&:hover,
+		&.is-active {
+			color: var(--ng-input-color, var(--ng-text));
+		}
+
+		&:focus-visible {
+			outline: none;
+			z-index: 2;
+			border-color: var(--ng-input-focus-border);
+		}
+	}

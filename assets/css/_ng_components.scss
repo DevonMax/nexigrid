@@ -1,0 +1,46 @@
+// _ng_components.scss
+// NexiGrid 1.0 — Orchestratore componenti.
+// Tutti i componenti CSS sono importati qui. Ordine alfabetico.
+
+@use 'components/ng_accordion';
+@use 'components/ng_alert';
+@use 'components/ng_autocomplete';
+@use 'components/ng_avatar';
+@use 'components/ng_back_to_top';
+@use 'components/ng_badge';
+@use 'components/ng_breadcrumb';
+@use 'components/ng_button';
+@use 'components/ng_card';
+@use 'components/ng_chip';
+@use 'components/ng_collapse';
+@use 'components/ng_chart';
+@use 'components/ng_divider';
+@use 'components/ng_dropdown';
+@use 'components/ng_empty';
+@use 'components/ng_footer';
+@use 'components/ng_form';
+@use 'components/ng_header';
+@use 'components/ng_input_group';
+@use 'components/ng_list';
+@use 'components/ng_modal';
+@use 'components/ng_overlay';
+@use 'components/ng_page_loader';
+@use 'components/ng_pagination';
+@use 'components/ng_panel';
+@use 'components/ng_popover';
+@use 'components/ng_progress';
+@use 'components/ng_range';
+@use 'components/ng_select_orion';
+@use 'components/ng_sidebar';
+@use 'components/ng_skeleton';
+@use 'components/ng_snackbar';
+@use 'components/ng_spinner';
+@use 'components/ng_steps';
+@use 'components/ng_table';
+@use 'components/ng_tabs';
+@use 'components/ng_toggle';
+@use 'components/ng_tooltip';
+
+// Brand signature: applica firme visive (rim/push/radius) a ng_button + ng_badge.
+// Import deliberatamente in coda (non alfabetico) per garantire l'override.
+@use 'components/ng_signature';

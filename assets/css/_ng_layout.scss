@@ -1,0 +1,77 @@
+@use 'sass:map';
+@use 'sass:color';
+@use 'ng_variables' as *;
+
+/* ==========================================================
+NexiGrid — Layout (struttura pagina)
+----------------------------------------------------------
+Struttura di pagina: .ng-layout (flex root), .ng-content (area
+centrale), .ng-container (wrapper + container-fix-*). Header,
+footer e sidebar sono componenti dedicati.
+----------------------------------------------------------
+Version: 1.0 · Status: stable
+========================================================== */
+
+	.ng-layout {
+
+		display: flex;
+		width: 100%;
+
+		min-height: 100vh;
+		min-height: 100dvh;
+
+		> * {
+			min-width: 0; // evita overflow flex
+		}
+
+		// Variante sidebar a destra
+		&.ng-sidebar-right {
+			flex-direction: row-reverse;
+		}
+	}
+
+/* =====================================================
+NG-CONTENT — Area centrale
+===================================================== */
+
+	.ng-content {
+
+		display: flex;
+		flex-direction: column;
+		flex: 1;
+		min-width: 0;
+
+		min-height: 100vh;
+		min-height: 100dvh;
+	}
+
+/* =====================================================
+NG-CONTAINER — Wrapper interno
+===================================================== */
+
+	.ng-container {
+
+		display: flex;
+		flex-direction: column;
+		flex: 1;
+
+		width: 100%;
+		box-sizing: border-box;
+
+		padding-inline: var(--ng-gap, 1rem);
+
+		&.container-center {
+			margin-left: auto;
+			margin-right: auto;
+		}
+	}
+
+/* =====================================================
+CONTAINER WIDTHS — .container-fix-*
+===================================================== */
+
+	@each $key, $width in $container-widths {
+		.container-fix-#{$key} {
+			max-width: $width;
+		}
+	}

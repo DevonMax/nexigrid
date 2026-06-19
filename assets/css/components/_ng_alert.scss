@@ -1,0 +1,199 @@
+@use 'sass:map';
+@use 'sass:color';
+@use '../ng_variables' as *;
+
+/* ==========================================================
+NexiGrid — Alert
+----------------------------------------------------------
+Alert/notice inline (icona, body, title, desc). Varianti colore, compact, dismissible.
+----------------------------------------------------------
+Version: 1.0 · Status: stable
+========================================================== */
+
+	.ng-alert {
+
+		--ng-alert-bg: var(--ng-mute-soft, #ececec);
+		--ng-alert-color: var(--ng-color-text);
+		/* radius: default 0 (bandiera, signature NG) via fallback-at-use.
+		   :root{--ng-alert-radius} cascata; banner re-scope sotto. */
+
+		--ng-alert-padding: .75rem 1rem;
+		--ng-alert-gap: .65rem;
+
+		--ng-alert-icon-size: 1.2rem;
+
+		--ng-alert-close-space: 2.5rem;
+
+		display: flex;
+		align-items: center;
+		gap: var(--ng-alert-gap);
+
+		padding: var(--ng-alert-padding);
+		border-radius: var(--ng-alert-radius, var(--ng-radius-0));
+
+		background: var(--ng-alert-bg);
+		color: var(--ng-alert-color);
+
+
+		/* =================================================
+		ICON
+		================================================= */
+
+		.ng-alert-icon {
+
+			flex: 0 0 auto;
+
+			display: flex;
+			align-items: center;
+			justify-content: center;
+
+			font-size: var(--ng-alert-icon-size);
+
+			i {
+				line-height: 1;
+				display: block;
+			}
+
+		}
+
+
+		/* =================================================
+		BODY
+		================================================= */
+
+		.ng-alert-body {
+
+			display: flex;
+			flex-direction: column;
+			gap: .2rem;
+
+		}
+
+
+		/* =================================================
+		TITLE
+		================================================= */
+
+		.ng-alert-title {
+
+			font-weight: 600;
+			line-height: 1.2;
+
+		}
+
+
+		/* =================================================
+		DESCRIPTION
+		================================================= */
+
+		.ng-alert-desc {
+
+			font-size: .92em;
+			opacity: .85;
+
+		}
+
+
+		/* =================================================
+		COMPACT
+		================================================= */
+
+		&.compact {
+
+			--ng-alert-padding: .5rem .75rem;
+			font-size: .875rem;
+
+		}
+
+
+		/* =================================================
+		DISMISSIBLE
+		================================================= */
+
+		&.dismissible {
+
+			padding-right: var(--ng-alert-close-space);
+			position: relative;
+
+			.ng-alert-close {
+
+				position: absolute;
+				top: .45rem;
+				right: .5rem;
+
+				cursor: pointer;
+
+				background: none;
+				border: 0;
+
+				font-size: 1rem;
+				line-height: 1;
+
+			}
+
+		}
+
+	}
+
+	/* =================================================
+	COLORS — bg = -soft, text = -dark, bar = -dark (firma laterale)
+	================================================= */
+
+	@each $name, $value in $ng-colors {
+
+		.ng-alert-#{$name} {
+
+			--ng-alert-bg:    var(--ng-#{$name}-soft, #{map.get($value, soft)});
+			--ng-alert-color: var(--ng-#{$name}-dark, #{map.get($value, color-darker)});
+			--ng-alert-bar:   var(--ng-#{$name}-dark, #{map.get($value, color-darker)});
+
+		}
+
+	}
+
+/* ==========================================================
+SIGNATURE — BANDIERA LATERALE
+La firma NG per .ng-alert: 4px solid color `-dark` sul lato sinistro.
+Token-driven: ogni variante color setta --ng-alert-bar dal proprio -dark.
+Opt-out via .ng-alert-bare.
+========================================================== */
+
+	.ng-alert:not(.ng-alert-bare) {
+		border-inline-start: 4px solid var(--ng-alert-bar, var(--ng-mute-dark, #888));
+		border-start-start-radius: 0;
+		border-end-start-radius: 0;
+	}
+
+/* ==========================================================
+VARIANTI PRE-COTTE — modifier opt-in
+
+  .ng-alert-solid     → bg = -bg color brand + testo -text (look "command output")
+  .ng-alert-banner    → full-width senza radius (per top di pagina)
+  .ng-alert-floating  → shadow elevata (per overlay/toast position fixed)
+  .ng-alert-bare      → opt-out bandiera (look "BS classico")
+========================================================== */
+
+	/* SOLID — bg saturato del brand, testo a contrasto */
+	@each $name, $value in $ng-colors {
+
+		.ng-alert-#{$name}.ng-alert-solid {
+
+			--ng-alert-bg:    var(--ng-#{$name}-bg,     #{map.get($value, bg)});
+			--ng-alert-color: var(--ng-#{$name}-text,   #{map.get($value, text)});
+			--ng-alert-bar:   var(--ng-#{$name}-border, #{map.get($value, border)});
+
+		}
+
+	}
+
+	/* BANNER — full width, no radius (per top page) */
+	.ng-alert.ng-alert-banner {
+		--ng-alert-radius: var(--ng-radius-0);
+		width: 100%;
+	}
+
+	/* FLOATING — shadow per uso in overlay / toast */
+	.ng-alert.ng-alert-floating {
+		box-shadow: 0 8px 24px rgba(0, 0, 0, .14);
+	}
+

@@ -1,0 +1,770 @@
+@use "sass:color";
+@use "sass:map";
+@use "sass:list";
+/* ==========================================================
+NEXIGRID – GLOBAL VARIABLES
+----------------------------------------------------------
+File centrale delle variabili del sistema.
+
+Contiene:
+
+1) Variabili CSS runtime (:root)
+   - Colori globali
+   - Tipografia
+   - Spaziature
+   - Variabili comuni dei componenti
+
+2) Mappe SCSS di sistema
+   - Palette colori utility
+   - Breakpoint
+   - Grid
+   - Z-index layers
+   - Gap scale
+   - Flex alignment helpers
+
+Questo file rappresenta la base del design system.
+========================================================== */
+
+/* ==========================================================
+NG-COLORS MAP
+----------------------------------------------------------
+Palette utilizzata per generare utility classes:
+
+.text-*
+.bg-*
+.border-*
+
+Serve come fonte unica per le utility di colore.
+========================================================== */
+
+	$ng-colors: (
+
+		"primary": (
+			bg: #4a2a86,
+			text: #ffffff,
+			border: #382066,
+			hover: color.scale(#4a2a86, $lightness: -15%),
+			color-darker: #4a2a86,
+			color-light: #ffffff,
+			soft: color.scale(#4a2a86, $lightness: +80%)
+		),
+
+		"secondary": (
+			bg: #7d2342,
+			text: #ffffff,
+			border: #611a34,
+			hover: color.scale(#7d2342, $lightness: -15%),
+			color-darker: #7d2342,
+			color-light: #ffffff,
+			soft: color.scale(#7d2342, $lightness: +80%)
+		),
+
+		"success": (
+			bg: #1da571,
+			text: #ffffff,
+			border: #18875d,
+			hover: color.scale(#1da571, $lightness: -15%),
+			color-darker: #1da571,
+			color-light: #ffffff,
+			soft: color.scale(#1da571, $lightness: +80%)
+		),
+
+		"info": (
+			bg: #119bdc,
+			text: #ffffff,
+			border: #0e7fb4,
+			hover: color.scale(#119bdc, $lightness: -15%),
+			color-darker: #119bdc,
+			color-light: #ffffff,
+			soft: color.scale(#119bdc, $lightness: +80%)
+		),
+
+		"warning": (
+			bg: #dd7900,
+			text: #ffffff,
+			border: #b56300,
+			hover: color.scale(#dd7900, $lightness: -15%),
+			color-darker: #dd7900,
+			color-light: #ffffff,
+			soft: color.scale(#dd7900, $lightness: +80%)
+		),
+
+		"danger": (
+			bg: #f2415c,
+			text: #ffffff,
+			border: #d82e47,
+			hover: color.scale(#f2415c, $lightness: -15%),
+			color-darker: #f2415c,
+			color-light: #ffffff,
+			soft: color.scale(#f2415c, $lightness: +80%)
+		),
+
+		"mute": (
+			bg: #c8c8c8,
+			text: #646464,
+			border: #dcdcdc,
+			hover: color.scale(#c8c8c8, $lightness: -15%),
+			color-darker: #5a5a5a,
+			color-light: #646464,
+			soft: color.scale(#c8c8c8, $lightness: +80%)
+		),
+
+		"blue": (
+			bg: #3b82f6,
+			text: #ffffff,
+			border: #2563eb,
+			hover: color.scale(#3b82f6, $lightness: -15%),
+			color-darker: #3b82f6,
+			color-light: #ffffff,
+			soft: color.scale(#3b82f6, $lightness: +80%)
+		),
+
+		"blue-sky": (
+			bg: #6cc8ff,
+			text: #07456e,
+			border: #2ea8f5,
+			hover: color.scale(#6cc8ff, $lightness: -15%),
+			color-darker: #1f8fd6,
+			color-light: #bce4ff,
+			soft: color.scale(#6cc8ff, $lightness: +80%)
+		),
+
+		"green": (
+			bg: #2e7d32,
+			text: #ffffff,
+			border: #246428,
+			hover: color.scale(#2e7d32, $lightness: -15%),
+			color-darker: #1b5e20,
+			color-light: #4caf50,
+			soft: color.scale(#2e7d32, $lightness: +80%)
+		),
+
+		"lime": (
+			bg: #9edc00,
+			text: #476f11,
+			border: #82b800,
+			hover: color.scale(#9edc00, $lightness: -15%),
+			color-darker: #5a7d00,
+			color-light: #c0ff25,
+			soft: color.scale(#9edc00, $lightness: +80%)
+		),
+
+		"aguagreen": (
+			bg: #0e9c7e,
+			text: #ffffff,
+			border: #0b7d64,
+			hover: color.scale(#0e9c7e, $lightness: -15%),
+			color-darker: #0c7a62,
+			color-light: #ffffff,
+			soft: color.scale(#0e9c7e, $lightness: +80%)
+		),
+
+		"indigo": (
+			bg: #4f46e5,
+			text: #ffffff,
+			border: #4338ca,
+			hover: color.scale(#4f46e5, $lightness: -15%),
+			color-darker: #4f46e5,
+			color-light: #ffffff,
+			soft: color.scale(#4f46e5, $lightness: +80%)
+		),
+
+		"purple": (
+			bg: #a027f0,
+			text: #ffffff,
+			border: #810ecb,
+			hover: color.scale(#a027f0, $lightness: -15%),
+			color-darker: #a027f0,
+			color-light: #ffffff,
+			soft: color.scale(#a027f0, $lightness: +80%)
+		),
+
+		"purple-heart": (
+			bg: #b23a8a,
+			text: #ffffff,
+			border: #7d2962,
+			hover: color.scale(#b23a8a, $lightness: -15%),
+			color-darker: #b23a8a,
+			color-light: #ffffff,
+			soft: color.scale(#b23a8a, $lightness: +80%)
+		),
+
+		"cyan": (
+			bg: #009dd9,
+			text: #ffffff,
+			border: #0081b2,
+			hover: color.scale(#009dd9, $lightness: -15%),
+			color-darker: #0081b2,
+			color-light: #ffffff,
+			soft: color.scale(#009dd9, $lightness: +80%)
+		),
+
+		"magenta": (
+			bg: #d4007f,
+			text: #ffffff,
+			border: #b0006a,
+			hover: color.scale(#d4007f, $lightness: -15%),
+			color-darker: #b0006a,
+			color-light: #ffffff,
+			soft: color.scale(#d4007f, $lightness: +80%)
+		),
+
+		"yellow": (
+			bg: #ffd200,
+			text: #8a6800,
+			border: #e6bd00,
+			hover: color.scale(#ffd200, $lightness: -15%),
+			color-darker: #e6bd00,
+			color-light: #000000,
+			soft: color.scale(#ffd200, $lightness: +80%)
+		),
+
+		"clight": (
+			bg: #f0f0f0,
+			text: #1f2937,
+			border: #e5e7eb,
+			hover: color.scale(#f5f6f8, $lightness: -6%),
+			color-darker: #e5e7eb,
+			color-light: #ffffff,
+			soft: color.scale(#f5f6f8, $lightness: +4%)
+		),
+
+		"cdark": (
+			bg: #424242,
+			text: #f0f0f0,
+			border: #5a5a5a,
+			hover: color.scale(#424242, $lightness: +18%),
+			color-darker: #2b2b2b,
+			color-light: #6e6e6e,
+			soft: color.scale(#424242, $lightness: +12%)
+		),
+	);
+
+	$ng-grays: (
+		0:  #ffffff,
+		10: #f5f5f5,
+		20: #e5e5e5,
+		30: #d4d4d4,
+		40: #a3a3a3,
+		50: #737373,
+		60: #525252,
+		70: #404040,
+		80: #262626,
+		90: #171717,
+		100: #000000
+	);
+
+/* ==========================================================
+LAYOUT STRUCTURE
+========================================================== */
+
+	$container-widths: (
+		400: 400px,
+		576: 576px,
+		768: 768px,
+		992: 992px,
+		1280: 1280px,
+		1400: 1400px
+	);
+
+	$ng-wcell: (
+		1: 5%,
+		5: 5%,
+		10: 10%,
+		15: 15%,
+		20: 20%,
+		25: 25%,
+		30: 30%,
+		35: 35%,
+		40: 40%,
+		45: 45%,
+		50: 50%,
+		55: 55%,
+		60: 60%,
+		65: 65%,
+		70: 70%,
+		75: 75%,
+		80: 80%,
+		85: 85%,
+		90: 90%,
+		95: 95%,
+	);
+
+/* ==========================================================
+Z-INDEX SYSTEM
+========================================================== */
+
+	$ng-z-layers: (
+		card: 100,
+		table: 150,
+		sidebar: 200,
+		header: 300,
+		dropdown: 400,
+		dropdown_menu: 401,
+		overlay: 700,
+		modal: 750,
+		back-to-top: 770,
+		snackbar: 775,
+		popover: 790,
+		tooltip: 800,
+	);
+
+/* ==========================================================
+GRID SYSTEM
+========================================================== */
+
+	$ng-grid-columns: 12;
+
+	$ng-breakpoints: (
+		"sm": 576px,
+		"md": 768px,
+		"lg": 896px,
+		"xlg": 1024px,
+		"xl": 1280px,
+		"xxl": 1400px
+	);
+
+	$ng-md-max: 767px;
+	$ng-sm-max: 575.98px;
+
+	$ng-lanes-max: 12;
+
+	$ng-autolanes-min: (
+		xs: 140px,
+		s: 180px,
+		m: 220px,
+		l: 280px,
+		xl: 340px
+	);
+
+/* ==========================================================
+FLEX / ALIGNMENT MAPS
+========================================================== */
+
+	$ng-justify-map: (
+		start: flex-start,
+		center: center,
+		end: flex-end,
+		between: space-between,
+		around: space-around,
+		evenly: space-evenly
+	);
+
+	$ng-align-map: (
+		start: flex-start,
+		center: center,
+		end: flex-end,
+		stretch: stretch,
+		baseline: baseline
+	);
+
+	$ng-alias-vertical: (
+		top: flex-start,
+		bottom: flex-end
+	);
+
+	$ng-flow-map: (
+		start: flex-start,
+		center: center,
+		end: flex-end,
+		between: space-between,
+		around: space-around,
+		evenly: space-evenly
+	);
+
+	$ng-stack-map: (
+		start: flex-start,
+		center: center,
+		end: flex-end,
+		stretch: stretch
+	);
+
+/* ==========================================================
+SPACING SCALE
+========================================================== */
+
+	$ng-gap-scale: (
+		"0": 0,
+		"xs": .25rem,
+		"sm": .5rem,
+		"md": 1rem,
+		"lg": 1.5rem,
+		"xl": 2rem
+	);
+
+/* ==========================================================
+GLOBAL BREAKPOINT ALIAS
+========================================================== */
+
+	$ng-bp-md: 768px;
+	$ng-bp-lg: 1024px;
+
+/* ==========================================================
+GLOBAL ROOT
+========================================================== */
+
+/* Brand "neutri" (superfici) esclusi dalla derivazione L2 automatica.
+   Definito a livello globale per essere disponibile sia dentro :root
+   (formule light) sia dentro @mixin ng-theme-dark (override formule dark). */
+$ng-surface-neutrals: (clight, cdark, mute, "lime");
+
+:root {
+
+	/* ======================================================
+	PALETTE ROOT
+	====================================================== */
+
+	// Basic neutral colors
+
+	--ng-color-white: rgba(255,255,255,1);
+	--ng-color-black: rgba(0,0,0,1);
+	--ng-color-midgrey: rgba(128,128,128,1);
+
+	// Color global Nexipress
+
+	@each $name, $set in $ng-colors {
+
+		$bg: map.get($set, bg);
+		$text: map.get($set, text);
+		$border: map.get($set, border);
+		$hover: map.get($set, hover);
+		$darker: map.get($set, color-darker);
+		$light: map.get($set, color-light);
+		$soft: map.get($set, soft);
+
+		$active: color.scale($bg, $lightness: -18%);
+		$focus: color.scale($bg, $lightness: -8%);
+		$ring: color.scale($bg, $alpha: -65%);
+		$outline: color.scale($bg, $lightness: -12%);
+		$disabled: color.scale($bg, $lightness: +35%);
+
+		--ng-#{$name}: #{$bg};
+		--ng-#{$name}-bg: #{$bg};
+		--ng-#{$name}-text: #{$text};
+		--ng-#{$name}-border: #{$border};
+		--ng-#{$name}-hover: #{$hover};
+		--ng-#{$name}-dark: #{$darker};
+		--ng-#{$name}-light: #{$light};
+		--ng-#{$name}-soft: #{$soft};
+
+		--ng-#{$name}-active: #{$active};
+		--ng-#{$name}-focus: #{$focus};
+		--ng-#{$name}-ring: #{$ring};
+		--ng-#{$name}-outline: #{$outline};
+		--ng-#{$name}-disabled: #{$disabled};
+
+	}
+
+	// Grey scale colors
+
+	@each $name, $color in $ng-grays {
+		--ng-g-#{$name}: #{$color};
+	}
+
+	/* ======================================================
+	GLOBAL Z-INDEX
+	====================================================== */
+
+	@each $name, $value in $ng-z-layers {
+		--ng-z-#{$name}: #{$value};
+	}
+
+	/* ======================================================
+	GLOBAL SURFACE COLORS
+	------------------------------------------------------
+	Colori principali di layout (body, superfici).
+	====================================================== */
+
+	--ng-body-color: #828ca8;
+	--ng-body-background: #ffffff;
+
+	/* ======================================================
+	THEME SURFACE & NEUTRAL TOKENS (light/dark ready)
+	------------------------------------------------------
+	Set semantico che i TEMI flippano ([data-theme="..."]).
+	I componenti leggono SOLO questi (mai hex hardcoded di
+	superficie), così un tema cambia tutte le superfici/neutri
+	senza toccare i colori brand. Valori = tema light (default).
+	====================================================== */
+
+	--ng-surface:        #ffffff;   /* card, modal, dropdown, list, popover, accordion, header-menu */
+	--ng-surface-sunken: #f5f5f5;   /* footer, chip, input-disabled */
+	--ng-fill:           #e5e7eb;   /* fill neutri: badge default, track progress/avatar/steps */
+	--ng-text:           #222222;   /* testo principale su superfici */
+	--ng-text-muted:     rgba(0,0,0,.55);
+	--ng-text-on-fill:   #ffffff;   /* testo su fill pieni (es. step circle attivo) */
+	--ng-hover-tint:     0,0,0;     /* base overlay translucidi: rgba(var(--ng-hover-tint), .0X) */
+	--ng-backdrop:       rgba(0,0,0,.35);
+
+	/* ======================================================
+	BORDER SYSTEM
+	------------------------------------------------------
+	Token globali per bordi e divider.
+	====================================================== */
+
+	--ng-color-border: rgba(232,235,244,1);
+	--ng-color-border-dark: rgba(26,26,26,1);
+	--ng-color-border-middle: rgba(115,115,115,1);
+	--ng-color-border-light: rgba(210,210,210,1);
+
+	/* ------------------------------------------------------
+	Border (L1): width + shorthand. Il colore è --ng-color-border.
+	I componenti puntano qui via fallback: var(--ng-<c>-border, var(--ng-border)).
+	------------------------------------------------------ */
+
+	--ng-border-width: 1px;
+	--ng-border-color: var(--ng-color-border);
+	--ng-border: var(--ng-border-width) solid var(--ng-border-color);
+
+	/* ======================================================
+	RADIUS TOKENS
+	------------------------------------------------------
+	Scala t-shirt del design system. --ng-radius è il MASTER (default
+	componenti). I componenti puntano a un gradino via fallback-at-use:
+	var(--ng-<c>-radius, var(--ng-radius-md)). Mai dichiarare il knob
+	scoped con valore literal sul selettore (schermerebbe :root).
+	====================================================== */
+
+	--ng-radius-0:    0;
+	--ng-radius:      0.1875rem; /* 3px  · master / default */
+	--ng-radius-sm:   0.3125rem; /* 5px  */
+	--ng-radius-md:   0.5rem;    /* 8px  */
+	--ng-radius-lg:   0.75rem;   /* 12px */
+	--ng-radius-xl:   1rem;      /* 16px */
+	--ng-radius-pill: 999px;
+
+	/* ======================================================
+	TYPOGRAPHY SYSTEM
+	------------------------------------------------------
+	Font globali del framework.
+	====================================================== */
+
+	--ng-font-base: "Inter", system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+	--ng-font-mono: ui-monospace, SFMono-Regular, Menlo, Consolas, monospace;
+	--ng-font-code: monospace;
+
+	--ng-font-heading: var(--ng-font-base);
+
+	--ng-font-size: 16px;
+
+	/* ======================================================
+	LAYOUT TOKENS
+	------------------------------------------------------
+	Spaziature e comportamento layout globale.
+	====================================================== */
+
+	--ng-gap: 1.5rem;
+
+	--ng-nav-gap: 0.65rem;
+	--ng-nav-font-size: 0.875rem;
+
+	--ng-transition: all 0.2s ease-in-out;
+
+	--ng-fill-width: 200px;
+
+	/* ======================================================
+	FOCUS SYSTEM
+	------------------------------------------------------
+	Token accessibilità focus.
+	====================================================== */
+
+	--ng-focus-border: rgba(200,200,220,.15);
+	--ng-focus-ring: 0 0 0 2px rgba(45,45,45,.15);
+
+	/* ======================================================
+	COMPONENT BASE TOKENS
+	------------------------------------------------------
+	Variabili condivise da componenti.
+	====================================================== */
+
+	/* Header */
+
+	--ng-header-height:4.5rem;
+
+	/* Button */
+
+	--ng-btn-size: 1.7rem;
+
+	/* Form inputs */
+
+	--ng-input-padding-y: .55rem;
+	--ng-input-padding-x: .75rem;
+	--ng-input-font-size: .9rem;
+	--ng-input-line-height: 1.4;
+
+	--ng-input-radius: var(--ng-radius-sm); /* allineato alla scala (5px) */
+
+	--ng-input-bg: var(--ng-surface);
+	--ng-input-color: inherit;
+	--ng-input-color-border: rgba(100,100,100,0.3);
+
+	/* Signature: focus brand-governed (crisp, non glow grigio BS5).
+	   Rebrandabile via --ng-input-focus-accent o --ng-primary-bg. */
+	--ng-input-focus-accent: var(--ng-primary-bg, #4a2a86);
+	--ng-input-focus-border: var(--ng-input-focus-accent);
+	--ng-input-focus-ring: 0 0 0 3px var(--ng-primary-ring, rgba(74,42,134,.35));
+
+	/* ======================================================
+	SHADOW TOKENS
+	------------------------------------------------------
+	Ombre riutilizzabili nel framework.
+	====================================================== */
+
+	--ng-tab-box-shadow-main: rgba(100,100,111,0.2) 0px 7px 29px 0px;
+	--ng-tab-box-shadow-alt: rgba(149,157,165,0.2) 0px 8px 24px 0px;
+
+	/* ======================================================
+	L2 — DERIVATE RUNTIME (modello token a 2 livelli)
+	------------------------------------------------------
+	Le derivate di ogni colore (hover/active/focus/outline/
+	soft/disabled/dark/light/ring) vengono ricalcolate a
+	runtime da --ng-<name>-bg via relative color syntax.
+	Effetto: override di --ng-<name>-bg propaga a TUTTE le
+	derivate senza ricompilare. bg/text/border restano i
+	knob base.
+	Il blocco @each sopra resta come FALLBACK bakato per
+	browser senza relative color syntax
+	(Chrome <119, Safari <16.4, Firefox <128).
+	Posizionato in fondo a :root (dopo le altre dichiarazioni)
+	per evitare il deprecation "declarations after nested rules";
+	Sass hoista comunque l'@supports → output invariato.
+	====================================================== */
+	/* Neutri esclusi: clight/cdark/mute hanno hover/soft fatti a mano
+	   (schiariscono), la formula L2 generica li scurirebbe → hover invisibile.
+	   Lista definita a livello globale (sopra :root) per essere disponibile
+	   anche dentro @mixin ng-theme-dark. */
+	@supports (color: hsl(from white h s l)) {
+		@each $name, $set in $ng-colors {
+			@if not list.index($ng-surface-neutrals, $name) {
+				--ng-#{$name}-hover:    hsl(from var(--ng-#{$name}-bg) h s calc(l * 0.85));
+				--ng-#{$name}-active:   hsl(from var(--ng-#{$name}-bg) h s calc(l * 0.82));
+				--ng-#{$name}-focus:    hsl(from var(--ng-#{$name}-bg) h s calc(l * 0.92));
+				--ng-#{$name}-outline:  hsl(from var(--ng-#{$name}-bg) h s calc(l * 0.88));
+				--ng-#{$name}-soft:     hsl(from var(--ng-#{$name}-bg) h s calc(l + (100 - l) * 0.80));
+				--ng-#{$name}-disabled: hsl(from var(--ng-#{$name}-bg) h s calc(l + (100 - l) * 0.35));
+				--ng-#{$name}-dark:     hsl(from var(--ng-#{$name}-bg) h s calc(l * 0.70));
+				--ng-#{$name}-light:    hsl(from var(--ng-#{$name}-bg) h s calc(l + (100 - l) * 0.85));
+				--ng-#{$name}-ring:     hsl(from var(--ng-#{$name}-bg) h s l / calc(alpha * 0.35));
+			}
+		}
+	}
+
+}
+
+/* ==========================================================
+UTILITY PLACEHOLDERS
+========================================================== */
+
+	%ng-line-hover-base {
+
+		text-decoration: none;
+		position: relative;
+
+		&::after {
+			content: "";
+			position: absolute;
+			bottom: -2px;
+			width: 0%;
+			height: 1px;
+			background-color: var(--ng-color-alt_1);
+			transition: width 0.4s ease;
+		}
+
+		&:hover::after,
+		&:focus::after {
+			width: 100%;
+		}
+
+	}
+/* ==========================================================
+THEME — DARK
+----------------------------------------------------------
+Flippa SOLO neutri/superfici; i colori brand restano invariati
+(il blocco L2 @supports deriva da --ng-<name>-bg, non toccato).
+Attivazione: SOLO esplicita via [data-theme]. Default (nessun attributo) = LIGHT,
+indipendente dall'OS (niente prefers-color-scheme). I temi sono molteplici.
+  [data-theme="dark"]   → dark
+  [data-theme="<nome>"] → tema custom (un blocco per tema)
+========================================================== */
+
+@mixin ng-theme-dark {
+	--ng-surface:        #1b1f27;
+	--ng-surface-sunken: #14171d;
+	--ng-fill:           #2a2f3a;
+	--ng-text:           #e6edf3;
+	--ng-text-muted:     rgba(255,255,255,.55);
+	--ng-hover-tint:     255,255,255;
+	--ng-backdrop:       rgba(0,0,0,.6);
+
+	--ng-body-background: #0e1116;
+	--ng-body-color:      #c9d1d9;
+
+	--ng-color-border:        rgba(255,255,255,.14);
+	--ng-color-border-light:  rgba(255,255,255,.08);
+	--ng-color-border-middle: rgba(255,255,255,.24);
+	--ng-color-border-dark:   rgba(255,255,255,.40);
+
+	/* Tipografia (heading/title/text/muted) — altrimenti h1-h6 invisibili */
+	--ng-color-title:   #f3f6fb;
+	--ng-color-heading: #e8eef7;
+	--ng-color-text:    #c9d1d9;
+	--ng-color-muted:   #8b95a5;
+
+	/* Brand readability override — 4 brand "scuri" di natura (primary,
+	   secondary, indigo, purple-heart) hanno contrasto sotto soglia WCAG
+	   contro --ng-body-background scuro. Schiariamo SOLO il loro -bg/-border:
+	   l'@supports L2 ricalcola in automatico hover/active/focus/soft/dark/
+	   light/outline/ring → un override per 4 brand schiarisce tutta la
+	   famiglia di derivate. Gli altri brand restano invariati. */
+	--ng-primary-bg:           #8a6dd4;
+	--ng-primary-border:       #7058b8;
+	--ng-secondary-bg:         #d35a85;
+	--ng-secondary-border:     #bb4475;
+	--ng-indigo-bg:            #928bf0;
+	--ng-indigo-border:        #7d75e7;
+	--ng-purple-heart-bg:      #d674b3;
+	--ng-purple-heart-border:  #c1599f;
+
+	/* mute ∈ $ng-surface-neutrals → niente L2: override manuale per il dark
+	   (bg medio, soft = superficie scura tinta, dark = "text on soft" chiaro).
+	   Prima del @supports per evitare il deprecation "declarations after nested". */
+	--ng-mute-bg:     #6b7280;
+	--ng-mute-border: #565d68;
+	--ng-mute-hover:  #5b626d;
+	--ng-mute-text:   #f0f3f7;
+	--ng-mute-soft:   #2c3038;
+	--ng-mute-dark:   #b8bdc7;
+
+	/* lime ∈ $ng-surface-neutrals (troppo brillante per l'L2) → override manuale dark.
+	   Solid resta bright bg + dark text; soft scuro olive; -dark = text chiaro. */
+	--ng-lime-bg:     #9edc00;
+	--ng-lime-border: #82b800;
+	--ng-lime-hover:  #8cc400;
+	--ng-lime-soft:   #2f3d12;
+	--ng-lime-dark:   #cdee63;
+
+	/* Soft variants — in light la formula L2 schiarisce molto il brand
+	   (l ≈ 85-90%): ottimo come "card tinted" su pagina chiara. In dark
+	   quella stessa pallidissima superficie diventa un'isola bianca su
+	   fondo nero, fuori tono. Override: in dark il soft è un'isola SCURA
+	   tinta (lightness fissa al 20% + saturazione ridotta), e --ng-*-dark
+	   (usato come testo sul soft) viene rialzato a ~78% per leggibilità.
+	   Sale -dark cambia significato solo qui: è "text on soft" nei
+	   consumer (button/badge/alert/snackbar/table). */
+	@supports (color: hsl(from white h s l)) {
+		@each $name, $set in $ng-colors {
+			@if not list.index($ng-surface-neutrals, $name) {
+				--ng-#{$name}-soft: hsl(from var(--ng-#{$name}-bg) h calc(s * 0.60) 20%);
+				--ng-#{$name}-dark: hsl(from var(--ng-#{$name}-bg) h s 78%);
+			}
+		}
+	}
+}
+
+/* :root[...] e non solo [data-theme] per battere in specificità i :root
+   definiti in altri file (es. tipografia) a prescindere dall'ordine di import. */
+:root[data-theme="dark"] { @include ng-theme-dark; }
+
+/* Niente @media (prefers-color-scheme): NG è SEMPRE light di default,
+   a prescindere dall'OS. I temi (dark e custom) si attivano solo con
+   [data-theme] esplicito (via ng_theme.js o attributo manuale). */

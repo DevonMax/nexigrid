@@ -1,0 +1,687 @@
+@use 'sass:map';
+@use 'sass:color';
+@use '../ng_variables' as *;
+
+/* ==========================================================
+NexiGrid — Form
+----------------------------------------------------------
+Sistema form: input/select/textarea, check/radio custom
+(ng-check-nexi classic/bolder), label/required, help, stati
+error/success, size sm/lg, upload, form-actions, count.
+Signature anti-BS5: focus brand-governed (crisp) + check brand;
+underline opt-in con .ng-form-underline / .ng-field-underline.
+----------------------------------------------------------
+Version: 1.1 · Status: stable
+========================================================== */
+
+	.ng-form {
+
+		/* ============================================================
+		SCOPED VARIABLES
+		============================================================ */
+
+		--ng-form-gap: 1rem;
+
+		--ng-form-label-size: .85rem;
+		--ng-form-label-weight: 600;
+		--ng-form-label-color: var(--ng-text);
+
+		--ng-field-gap: .6rem;
+		--ng-label-margin: .8rem 0 .5rem;
+
+		--ng-input-disabled-bg: var(--ng-surface-sunken);
+		--ng-input-disabled-color: var(--ng-text-muted, #888);
+
+		--ng-input-placeholder: #999;
+
+		--ng-form-help-color: var(--ng-text-muted, #777);
+
+		// Layout base form (stack verticale)
+		display: flex;
+		flex-direction: column;
+		gap: var(--ng-form-gap);
+		inline-size: 100%;
+
+		&.form_100 .ng-input,
+		&.form_100 .ng-select,
+		&.form_100 .ng-textarea {
+			width: 100%;
+		}
+
+	}
+
+/* ============================================================
+FIELD WRAPPER
+============================================================ */
+
+	.ng-field {
+
+		// Wrapper singolo campo
+		display: flex;
+		flex-direction: column;
+		gap: var(--ng-field-gap);
+		inline-size: 100%;
+	}
+
+/* ============================================================
+INPUT BASE (Shared Core)
+============================================================ */
+
+	%ng-input-base {
+
+		min-width: 0;
+
+		// Spaziatura interna
+		padding-block: var(--ng-input-padding-y);
+		padding-inline: var(--ng-input-padding-x);
+
+		// Bordo
+		border: 1px solid var(--ng-input-color-border);
+		border-radius: var(--ng-input-radius);
+
+		// Colori
+		background: var(--ng-input-bg);
+		color: var(--ng-input-color);
+
+		// Tipografia
+		font-size: var(--ng-input-font-size);
+		line-height: var(--ng-input-line-height);
+
+		// Transizioni coerenti
+		transition:
+			border-color .2s ease,
+			box-shadow .2s ease,
+			background .2s ease;
+
+		// Focus state — brand-governed (signature). border-radius esplicito per
+		// neutralizzare il reset globale input:focus-visible (forzerebbe 3px).
+		&:focus,
+		&:focus-visible {
+			outline: none;
+			border-color: var(--ng-input-focus-border);
+			border-radius: var(--ng-input-radius);
+			box-shadow: var(--ng-input-focus-ring);
+		}
+
+		// Disabled state
+		&:disabled {
+			background: var(--ng-input-disabled-bg);
+			color: var(--ng-input-disabled-color);
+			cursor: not-allowed;
+		}
+
+		// Placeholder
+		&::placeholder {
+			color: var(--ng-input-placeholder);
+		}
+
+		&.is-uppercase {
+			text-transform: uppercase;
+		}
+	}
+
+/* ============================================================
+TEXTUAL INPUTS
+============================================================ */
+
+	.ng-input,
+	.ng-select,
+	.ng-textarea {
+		@extend %ng-input-base;
+	}
+
+	.ng-textarea {
+
+		// Ridimensionamento verticale controllato
+		resize: vertical;
+		min-block-size: 90px;
+	}
+
+	.ng-select {
+
+		// Rimozione stile nativo
+		appearance: none;
+		-webkit-appearance: none;
+		cursor: pointer;
+		background-image: none;
+	}
+
+/* ============================================================
+SIGNATURE — Underline (anti-BS5, opt-in con UNA classe)
+.ng-form-underline sul form (o .ng-field-underline sul singolo campo):
+tutti gli input/select/textarea diventano "editorial" — niente box, solo
+riga inferiore; focus = barra brand 2px. Zero classi per-campo. La riga usa
+--ng-input-color-border, quindi gli stati error/success la colorano da soli.
+============================================================ */
+
+	.ng-form-underline,
+	.ng-field-underline {
+
+		.ng-input,
+		.ng-select,
+		.ng-textarea {
+			border: 0;
+			border-radius: 0;
+			background: transparent;
+			padding-inline: 0;
+			box-shadow: inset 0 -1px 0 var(--ng-input-color-border);
+			transition: box-shadow .2s ease;
+		}
+
+		.ng-input:focus,
+		.ng-input:focus-visible,
+		.ng-select:focus,
+		.ng-select:focus-visible,
+		.ng-textarea:focus,
+		.ng-textarea:focus-visible {
+			box-shadow: inset 0 -2px 0 var(--ng-input-focus-accent, var(--ng-primary-bg, #4a2a86));
+		}
+	}
+
+/* ============================================================
+CHECKBOX / RADIO
+============================================================ */
+
+	/* Wrapper base (sempre valido) */
+	.ng-check {
+		display: inline-flex;
+		align-items: center;
+		gap: .5rem;
+		font-size: .9rem;
+		cursor: pointer;
+	}
+
+	/* Default (nativo fallback) */
+	.ng-check input[type="checkbox"],
+	.ng-check input[type="radio"] {
+		inline-size: var(--ng-check-size, 16px);
+		block-size: var(--ng-check-size, 16px);
+		cursor: pointer;
+	}
+
+	/* ============================================================
+	CHECKBOX / RADIO – Custom (ng-check-nexi)
+	Varianti: .classic | .bolder
+	============================================================ */
+
+	/* Base condivisa (non emessa direttamente) */
+
+	%ng-check-base {
+
+		display: inline-flex;
+		align-items: center;
+		gap: .5rem;
+		font-size: .9rem;
+		cursor: pointer;
+		user-select: none;
+
+		input[type="checkbox"],
+		input[type="radio"] {
+			position: absolute;
+			width: 1px;
+			height: 1px;
+			padding: 0;
+			margin: -1px;
+			overflow: hidden;
+			clip: rect(0, 0, 0, 0);
+			white-space: nowrap;
+			border: 0;
+			appearance: none;
+			-webkit-appearance: none;
+		}
+
+		.ng-check-box {
+			flex-shrink: 0;
+			display: inline-flex;
+			align-items: center;
+			justify-content: center;
+			background-repeat: no-repeat;
+			background-position: center;
+			transition:
+				border-color .2s ease,
+				background-color .2s ease,
+				box-shadow .2s ease;
+		}
+
+		input[type="checkbox"] ~ .ng-check-box { border-radius: var(--_check-radius); }
+		input[type="radio"]    ~ .ng-check-box { border-radius: 50%; }
+
+		/* Checked */
+
+		input[type="checkbox"]:checked ~ .ng-check-box {
+			background-color: var(--ng-check-color);
+			border-color: var(--ng-check-color);
+			background-image: var(--_check-icon);
+			background-size: 65%;
+		}
+
+		input[type="radio"]:checked ~ .ng-check-box {
+			border-color: var(--ng-check-color);
+			background-image: radial-gradient(
+				circle,
+				var(--ng-check-color) 38%,
+				transparent 40%
+			);
+		}
+
+		/* Indeterminate */
+
+		input[type="checkbox"]:indeterminate ~ .ng-check-box {
+			background-color: var(--ng-check-color);
+			border-color: var(--ng-check-color);
+			background-image: var(--_check-indeterminate);
+			background-size: 65%;
+		}
+
+		/* Hover */
+
+		&:hover input:not(:disabled) ~ .ng-check-box {
+			border-color: var(--ng-input-focus-border);
+			box-shadow: var(--ng-input-focus-ring);
+		}
+
+		/* Focus */
+
+		input:focus-visible ~ .ng-check-box {
+			border-color: var(--ng-input-focus-border);
+			box-shadow: var(--ng-input-focus-ring);
+		}
+
+		/* Disabled */
+
+		input:disabled ~ .ng-check-box {
+			background-color: var(--ng-input-disabled-bg, #f5f5f5);
+			border-color: var(--ng-input-color-border);
+			opacity: .55;
+		}
+
+		&:has(input:disabled) {
+			cursor: not-allowed;
+			opacity: .6;
+			pointer-events: none;
+		}
+
+		/* Windows HCM */
+
+		@media (forced-colors: active) {
+
+			.ng-check-box {
+				border: 2px solid ButtonText;
+				background-color: ButtonFace;
+				forced-color-adjust: none;
+			}
+
+			input:checked ~ .ng-check-box,
+			input:indeterminate ~ .ng-check-box {
+				background-color: Highlight;
+				border-color: Highlight;
+			}
+
+			input:focus-visible ~ .ng-check-box {
+				outline: 2px solid Highlight;
+				outline-offset: 2px;
+			}
+		}
+	}
+
+	/* ============================================================
+	ng-check-nexi
+	============================================================ */
+
+	.ng-check-nexi {
+
+		--ng-check-color:        var(--ng-primary-bg, #4a2a86);
+		--_check-icon:           url("data:image/svg+xml,%3Csvg viewBox='0 0 10 8' xmlns='http://www.w3.org/2000/svg'%3E%3Cpath d='M1 4l3 3 5-6' stroke='%23fff' stroke-width='1.6' stroke-linecap='round' stroke-linejoin='round' fill='none'/%3E%3C/svg%3E");
+		--_check-indeterminate:  url("data:image/svg+xml,%3Csvg viewBox='0 0 10 2' xmlns='http://www.w3.org/2000/svg'%3E%3Cpath d='M1 1h8' stroke='%23fff' stroke-width='1.8' stroke-linecap='round'/%3E%3C/svg%3E");
+
+		/* ── CLASSIC ─────────────────────────────── */
+
+		&.classic {
+
+			--_check-radius: var(--ng-radius-sm);
+
+			@extend %ng-check-base;
+
+			.ng-check-box {
+				width: 18px;
+				height: 18px;
+				border: 1px solid var(--ng-input-color-border);
+				background-color: var(--ng-input-bg, #fff);
+			}
+		}
+
+		/* ── BOLDER ──────────────────────────────── */
+
+		&.bolder {
+
+			--_check-radius: var(--ng-radius-md);
+
+			@extend %ng-check-base;
+
+			.ng-check-box {
+				width: 24px;
+				height: 24px;
+				border: 2px solid rgba(180, 180, 180, .45);
+				border-radius: var(--_check-radius);
+				background-color: var(--ng-input-bg, #fff);
+				box-shadow: 0 0 0 0 transparent; // reset base per transizione
+			}
+
+			// Radio bolder: cerchio più grande, bordo coerente
+			input[type="radio"] ~ .ng-check-box {
+				border-radius: 50%;
+			}
+
+			// Hover/focus più marcato su bolder
+			&:hover input:not(:disabled) ~ .ng-check-box,
+			input:focus-visible ~ .ng-check-box {
+				border-color: rgba(180, 180, 180, .75);
+				box-shadow: 0 0 0 3px rgba(100, 100, 100, .12);
+			}
+		}
+
+	}
+
+/* ============================================================
+LABEL
+============================================================ */
+
+	.ng-label {
+
+		// Label base
+		display: block;
+		margin: var(--ng-label-margin);
+		font-size: var(--ng-form-label-size);
+		font-weight: var(--ng-form-label-weight);
+		color: var(--ng-form-label-color);
+	}
+
+	/* Default per <label> PLAIN (senza classe) nei field impilati: il reset
+	   globale li azzera, restavano attaccati all'input (come heading e p).
+	   Specificità 0 (:where) - .ng-label / .ng-check / label inline NON toccati. */
+	:where(.ng-field:not(.ng-field-inline) > label) {
+		margin-block-end: var(--ng-label-gap, .45rem);
+	}
+
+	.ng-label-required::after {
+
+		// Indicatore required
+		content: " *";
+		color: var(--ng-danger-bg, #f2415c);
+		font-weight: 700;
+	}
+
+	.ng-summary-label {
+		font-size: 11px;
+		text-transform: uppercase;
+		font-weight: 700;
+		color: var(--ng-primary-bg, #4a2a86);
+	}
+
+	.ng-summary-value {
+		font-size: 15px;
+		margin-bottom: 20px;
+	}
+/* ============================================================
+INLINE MODE
+============================================================ */
+
+	.ng-field.ng-field-inline {
+
+		// Layout orizzontale controllato
+		display: flex;
+		flex-direction: row;
+		flex-wrap: wrap;
+		gap: .75rem;
+		align-items: center;
+
+		.ng-label {
+
+			// Label non espandibile
+			flex: 0 0 auto;
+			white-space: nowrap;
+		}
+
+		.ng-input,
+		.ng-select,
+		.ng-textarea {
+
+			// Input flessibile
+			flex: 1 1 0;
+			inline-size: auto;
+			min-inline-size: 0;
+		}
+
+		.ng-inline-full {
+
+			// Forza riga completa
+			flex: 0 0 100%;
+		}
+	}
+
+/* ============================================================
+HELP TEXT
+============================================================ */
+
+	.ng-help {
+
+		// Testo di supporto sotto input
+		margin: .6rem 0 0;
+		font-size: .75rem;
+		color: var(--ng-form-help-color);
+	}
+
+/* ============================================================
+STATES
+============================================================ */
+
+	.ng-field-error {
+
+		// Override variabile bordo
+		--ng-input-color-border: var(--ng-danger-bg, #f2415c);
+
+		.ng-help {
+			color: var(--ng-danger-bg, #f2415c);
+		}
+	}
+
+	.ng-field-success {
+
+		// Override variabile bordo
+		--ng-input-color-border: var(--ng-success-bg, #1da571);
+	}
+
+	.ng-field-warning {
+
+		// Override variabile bordo
+		--ng-input-color-border: var(--ng-warning-bg, #dd7900);
+
+		.ng-help {
+			color: var(--ng-warning-bg, #dd7900);
+		}
+	}
+
+/* ============================================================
+SIZE MODIFIERS
+============================================================ */
+
+	.ng-input-sm,
+	.ng-select-sm,
+	.ng-textarea-sm {
+
+		// Dimensione compatta
+		--ng-input-padding-y: .35rem;
+		--ng-input-padding-x: .6rem;
+		--ng-input-font-size: .8rem;
+		--ng-input-line-height: 1.2;
+	}
+
+	.ng-input-lg,
+	.ng-select-lg,
+	.ng-textarea-lg {
+
+		// Dimensione ampia
+		--ng-input-padding-y: .7rem;
+		--ng-input-padding-x: 1rem;
+		--ng-input-font-size: 1rem;
+		--ng-input-line-height: 1.5;
+	}
+
+	.ng-input.w-auto,
+	.ng-select.w-auto,
+	.ng-textarea.w-auto {
+		width: auto;
+	}
+
+/* ============================================================
+NG UPLOAD
+File upload minimale compatibile con ng-form
+============================================================ */
+
+	.ng-upload {
+
+		display: flex;
+		flex-direction: column;
+		gap: .75rem;
+
+		/* Input reale nascosto */
+
+		.ng-upload-input {
+			display: none;
+		}
+
+		/* Area clic / drop */
+
+		.ng-upload-drop {
+
+			display: flex;
+			flex-direction: column;
+			align-items: center;
+			justify-content: center;
+			gap: .5rem;
+
+			padding: 1.25rem;
+
+			border: 1px dashed var(--ng-input-color-border);
+			border-radius: var(--ng-radius);
+
+			background: var(--ng-input-bg);
+			color: inherit;
+
+			cursor: pointer;
+			text-align: center;
+
+			transition:
+				border-color .2s ease,
+				background .2s ease;
+
+			&:hover {
+				border-color: var(--ng-input-focus-border);
+			}
+
+			> * {
+				min-width: 0;
+			}
+		}
+
+		/* Testo */
+
+		.ng-upload-text {
+			font-size: .9rem;
+			line-height: 1.4;
+		}
+
+		/* Lista file */
+
+		.ng-upload-list {
+
+			display: flex;
+			flex-direction: column;
+			gap: .35rem;
+
+			min-width: 0;
+		}
+
+		/* Singolo file */
+
+		.ng-upload-item {
+
+			display: flex;
+			align-items: center;
+			justify-content: space-between;
+			gap: .5rem;
+
+			font-size: .85rem;
+			min-width: 0;
+
+			span {
+				min-width: 0;
+			}
+		}
+
+	}
+
+/* ============================================================
+FORM ACTIONS
+============================================================ */
+
+	.ng-form-actions {
+
+		// Area bottoni finale
+		display: flex;
+		gap: .75rem;
+		align-items: center;
+		flex-wrap: wrap;
+		margin-block-start: 2rem;
+	}
+
+	.ng-count {
+
+		/* Brand-governed: segue i form brandizzati + theme-aware. Override
+		   per-istanza via --ng-count-bg/-color. */
+		--ng-count-bg: var(--ng-primary-bg, #4a2a86);
+		--ng-count-color: var(--ng-primary-text, #ffffff);
+
+		position: absolute;
+		display: inline-flex;
+		align-items: center;
+		justify-content: center;
+
+		font-size: 0.75rem;
+		line-height: 1.3;
+		white-space: nowrap;
+
+		padding: 0.25rem 0.375rem;
+		border-radius: var(--ng-radius-sm);
+
+		background: var(--ng-count-bg);
+		color: var(--ng-count-color);
+
+		pointer-events: none;
+		z-index: 2;
+
+		opacity: 1;
+		transition: opacity .2s ease;
+
+		&.top-left		{ top: 12px; left: 0; }
+		&.top-center	{ top: 12px; left: 50%; transform: translateX(-50%); }
+		&.top-right		{ top: 12px; right: 0; }
+
+		&.bottom-left	{ bottom: -30px; left: 4px; }
+		&.bottom-center	{ bottom: -30px; left: 50%; transform: translateX(-50%); }
+		&.bottom-right	{ bottom: -30px; right: 4px; }
+	}
+
+/* ============================================================
+RESPONSIVE
+============================================================ */
+
+	@media (max-width: $ng-sm-max) {
+
+		.ng-field.ng-field-inline {
+
+			// Inline diventa stack su mobile
+			flex-direction: column;
+			align-items: stretch;
+		}
+	}

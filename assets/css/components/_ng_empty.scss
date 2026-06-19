@@ -1,0 +1,31 @@
+@use 'sass:map';
+@use 'sass:color';
+@use '../ng_variables' as *;
+
+/* ==========================================================
+NexiGrid — Empty
+----------------------------------------------------------
+Empty state centrato (title + text).
+----------------------------------------------------------
+Version: 1.0 · Status: stable
+========================================================== */
+
+	.ng-empty {
+
+		--ng-empty-gap: 1rem;
+
+		display: flex;
+		flex-direction: column;
+		align-items: center;
+		text-align: center;
+		gap: var(--ng-empty-gap);
+
+		.ng-empty-title {
+			font-weight: 600;
+		}
+
+		.ng-empty-text {
+			opacity: .7;
+		}
+	}
+
