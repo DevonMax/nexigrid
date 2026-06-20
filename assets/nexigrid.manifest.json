@@ -1,7 +1,7 @@
 {
     "framework": "NexiGrid",
     "version": "1.1.0",
-    "generatedAt": "2026-06-19T05:08:07+00:00",
+    "generatedAt": "2026-06-20T05:09:04+00:00",
     "counts": {
         "total": 48,
         "css": 22,
@@ -328,11 +328,12 @@
             "slug": "card",
             "name": "Card",
             "type": "css",
-            "version": "1.2",
+            "version": "1.2.1",
             "status": "stable",
             "description": "Card strutturale: media, head (left/right), subhead, body, section, subfoot, foot (left/center/right). Varianti hover, compact, horizontal. Responsive. Var scoped overridabili. Head titles: blocco .ng-card-head-titles (stack verticale) + .ng-card-title / .ng-card-subtitle per il pattern \"titolo sopra, sottotitolo sotto\" senza forzare head-left a column. Head right: stack a sm (576) con margin-top --ng-card-gap. Foot: padding-top non più 0 (era attaccato al body senza subfoot) → simmetrico 1.75rem, spaziato anche senza divider/subfoot.",
             "dependencies": [],
             "classes": [
+                ".ng-btn",
                 ".ng-card",
                 ".ng-card-body",
                 ".ng-card-foot",

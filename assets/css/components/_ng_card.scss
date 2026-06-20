@@ -15,7 +15,7 @@ Head right: stack a sm (576) con margin-top --ng-card-gap.
 Foot: padding-top non più 0 (era attaccato al body senza subfoot) →
 simmetrico 1.75rem, spaziato anche senza divider/subfoot.
 ----------------------------------------------------------
-Version: 1.2 · Status: stable
+Version: 1.2.1 · Status: stable
 ========================================================== */
 
 	.ng-card {
@@ -203,8 +203,10 @@ Version: 1.2 · Status: stable
 			flex-wrap: wrap;
 			min-width: 0;
 
-			i { margin-right: .75em; }
-			i:last-child { margin-left: 0; }
+			/* solo icone "bare" figlie dirette: NON le <i> dentro i .ng-btn
+			   (i button gestiscono già lo spacing icona/testo via gap) */
+			> i { margin-right: .75em; }
+			> i:last-child { margin-left: 0; }
 		}
 
 		.ng-card-foot-left,
