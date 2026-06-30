@@ -3,7 +3,6 @@
   "version": "1.1.0",
   "description": "Nexigrid — a zero-dependency CSS + JS UI framework.",
   "style": "assets/css/nexigrid.min.css",
-  "sass": "assets/css/ng_index.scss",
   "main": "assets/js/ng-all.min.js",
   "files": [
     "assets/css",

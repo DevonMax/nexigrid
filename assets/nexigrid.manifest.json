@@ -1,19 +1,27 @@
 {
     "framework": "NexiGrid",
     "version": "1.1.0",
-    "generatedAt": "2026-06-20T05:09:04+00:00",
+    "compatibleFrom": "1.1.0",
+    "generatedAt": "2026-06-30T11:40:04+00:00",
     "counts": {
-        "total": 48,
+        "total": 49,
         "css": 22,
         "js": 8,
-        "css+js": 18
+        "css+js": 19
     },
     "components": [
         {
             "slug": "accordion",
             "name": "accordion",
             "type": "css+js",
-            "version": "1.0",
+            "version": {
+                "css": "1.0.0",
+                "js": "1.0.0"
+            },
+            "compatibleFrom": {
+                "css": "1.0.0",
+                "js": "1.0.0"
+            },
             "status": "stable",
             "description": "Disclosure accordion (multi/single open). ARIA expanded/controls/labelledby/region, keyboard nav (Enter/Space/Arrow), animated max-height.",
             "dependencies": [],
@@ -47,9 +55,14 @@
             "slug": "alert",
             "name": "Alert",
             "type": "css",
-            "version": "1.0",
+            "version": {
+                "css": "1.1.0"
+            },
+            "compatibleFrom": {
+                "css": "1.0.0"
+            },
             "status": "stable",
-            "description": "Alert/notice inline (icona, body, title, desc). Varianti colore, compact, dismissible.",
+            "description": "Inline alert/notice (icon, body, title, desc). Color variants, compact, dismissible.",
             "dependencies": [],
             "classes": [
                 ".ng-alert",
@@ -66,6 +79,7 @@
             ],
             "tokens": [
                 "--ng-alert-bar",
+                "--ng-alert-bar-width",
                 "--ng-alert-bg",
                 "--ng-alert-close-space",
                 "--ng-alert-color",
@@ -83,7 +97,12 @@
             "slug": "auto-disable",
             "name": "auto-disable",
             "type": "js",
-            "version": "1.0",
+            "version": {
+                "js": "1.0.0"
+            },
+            "compatibleFrom": {
+                "js": "1.0.0"
+            },
             "status": "stable",
             "description": "Disables a button on click and adds is-loading + aria-busy. Prevents duplicate submits.",
             "dependencies": [],
@@ -98,9 +117,16 @@
             "slug": "autocomplete",
             "name": "autocomplete",
             "type": "css+js",
-            "version": "1.1",
+            "version": {
+                "css": "1.1.0",
+                "js": "1.1.0"
+            },
+            "compatibleFrom": {
+                "css": "1.1.0",
+                "js": "1.1.0"
+            },
             "status": "stable",
-            "description": "Combobox con fetch incorporato (single + multi-select via data-multiple, chip removable inline), JSON {results:[...]}, AbortController, ARIA combobox/listbox, no innerHTML (anti-XSS).",
+            "description": "Combobox with built-in fetch (single + multi-select via data-multiple, removable inline chips), JSON {results:[...]}, AbortController, ARIA combobox/listbox, no innerHTML (anti-XSS).",
             "dependencies": [],
             "classes": [
                 ".ng-autocomplete",
@@ -153,9 +179,14 @@
             "slug": "aux",
             "name": "aux",
             "type": "js",
-            "version": "1.0",
+            "version": {
+                "js": "1.0.0"
+            },
+            "compatibleFrom": {
+                "js": "1.0.0"
+            },
             "status": "stable",
-            "description": "Delegated micro-behaviors: alert dismiss, chip remove, list selectable, copy-tab. Single document-level listener, dispatcha ng:aux:copy / ng:aux:copy-error.",
+            "description": "Delegated micro-behaviors: alert dismiss, chip remove, list selectable, copy-tab. Single document-level listener, dispatches ng:aux:copy / ng:aux:copy-error.",
             "dependencies": [],
             "classes": [],
             "tokens": [],
@@ -171,7 +202,12 @@
             "slug": "avatar",
             "name": "Avatar",
             "type": "css",
-            "version": "1.0.1",
+            "version": {
+                "css": "1.0.1"
+            },
+            "compatibleFrom": {
+                "css": "1.0.1"
+            },
             "status": "stable",
             "description": "Avatar (immagine/iniziali), dot/badge, ring, size system, avatar-group/stack.",
             "dependencies": [],
@@ -200,9 +236,16 @@
             "slug": "back-to-top",
             "name": "back-to-top",
             "type": "css+js",
-            "version": "1.0",
+            "version": {
+                "css": "1.0.0",
+                "js": "1.0.0"
+            },
+            "compatibleFrom": {
+                "css": "1.0.0",
+                "js": "1.0.0"
+            },
             "status": "stable",
-            "description": "Bottone flottante scroll-to-top che compone .ng-btn. Opzioni: threshold (px/%), behavior smooth/instant, target ancora, scope container, anello di progresso (conic), auto-hide, angoli, animazioni, hide-on-mobile. Eventi ng:back-to-top:show|hide|click.",
+            "description": "Floating scroll-to-top button that composes .ng-btn. Options: threshold (px/%), behavior smooth/instant, anchor target, container scope, progress ring (conic), auto-hide, corners, animations, hide-on-mobile. Events ng:back-to-top:show|hide|click.",
             "dependencies": [],
             "classes": [
                 ".ng-back-to-top",
@@ -218,7 +261,6 @@
                 "--ng-btt-ring-gap",
                 "--ng-btt-ring-thickness",
                 "--ng-btt-ring-track",
-                "--ng-btt-shadow",
                 "--ng-btt-transition",
                 "--ng-btt-z"
             ],
@@ -232,9 +274,14 @@
             "slug": "badge",
             "name": "Badge",
             "type": "css",
-            "version": "1.0",
+            "version": {
+                "css": "1.0.0"
+            },
+            "compatibleFrom": {
+                "css": "1.0.0"
+            },
             "status": "stable",
-            "description": "Etichette / contatori inline. SCSS-only (nessun JS). Varianti: solid · outline · soft · size sm/lg (default = medium) · shape pill/quad/circle · subtle. Colori da $ng-colors (token L1/L2, override via --ng-<color>-bg).",
+            "description": "Inline labels / counters. SCSS-only (no JS). Variants: solid · outline · soft · size sm/lg (default = medium) · shape pill/quad/circle · subtle. Colors from $ng-colors (L1/L2 tokens, override via --ng-<color>-bg).",
             "dependencies": [],
             "classes": [
                 ".ng-badge",
@@ -261,9 +308,14 @@
             "slug": "breadcrumb",
             "name": "Breadcrumb",
             "type": "css",
-            "version": "1.0",
+            "version": {
+                "css": "1.0.0"
+            },
+            "compatibleFrom": {
+                "css": "1.0.0"
+            },
             "status": "stable",
-            "description": "Breadcrumb con separatori (arrow/chevron/dot/pipe), size, interactive, boxed, truncate.",
+            "description": "Breadcrumb with separators (arrow/chevron/dot/pipe), size, interactive, boxed, truncate.",
             "dependencies": [],
             "classes": [
                 ".ng-breadcrumb",
@@ -286,9 +338,14 @@
             "slug": "button",
             "name": "Button",
             "type": "css",
-            "version": "1.0.2",
+            "version": {
+                "css": "1.0.2"
+            },
+            "compatibleFrom": {
+                "css": "1.0.2"
+            },
             "status": "stable",
-            "description": "Bottoni interattivi. Stile SCSS-only (spinner in _ng_spinner). Varianti: solid · outline · soft · ghost · link · size xs/sm/md/lg · shape rect/quad/circle · stati hover/disabled/loading. Colori da $ng-colors (token L1/L2, override via --ng-<color>-bg).",
+            "description": "Interactive buttons. SCSS-only styling (spinner in _ng_spinner). Variants: solid · outline · soft · ghost · link · size xs/sm/md/lg · shape rect/quad/circle · hover/disabled/loading states. Colors from $ng-colors (L1/L2 tokens, override via --ng-<color>-bg).",
             "dependencies": [],
             "classes": [
                 ".ng-btn",
@@ -328,9 +385,14 @@
             "slug": "card",
             "name": "Card",
             "type": "css",
-            "version": "1.2.1",
+            "version": {
+                "css": "1.4.0"
+            },
+            "compatibleFrom": {
+                "css": "1.3.0"
+            },
             "status": "stable",
-            "description": "Card strutturale: media, head (left/right), subhead, body, section, subfoot, foot (left/center/right). Varianti hover, compact, horizontal. Responsive. Var scoped overridabili. Head titles: blocco .ng-card-head-titles (stack verticale) + .ng-card-title / .ng-card-subtitle per il pattern \"titolo sopra, sottotitolo sotto\" senza forzare head-left a column. Head right: stack a sm (576) con margin-top --ng-card-gap. Foot: padding-top non più 0 (era attaccato al body senza subfoot) → simmetrico 1.75rem, spaziato anche senza divider/subfoot.",
+            "description": "Structural card: media, head (left/right), subhead, body, section, subfoot, foot (left/center/right). Hover, compact, horizontal variants. Responsive. Overridable scoped vars. Head titles: .ng-card-head-titles block (vertical stack) + .ng-card-title / .ng-card-subtitle for the \"title above, subtitle below\" pattern without forcing head-left to column. Spacing model (1.3.0): single horizontal pad-x + general vertical gap-block (above/below subhead/body/subfoot); head and foot with their own padding-Y and independent inner X/Y gaps (--ng-card-{head,foot}-gap-{x,y}). Head ↔ subhead now separated: divider line below the header (--ng-card-head-border-bottom, default on) + space. Removed tokens: --ng-card-{padding,body-padding,header-padding, footer-padding,gap-foot} (absorbed by the new model).",
             "dependencies": [],
             "classes": [
                 ".ng-btn",
@@ -353,20 +415,25 @@
             ],
             "tokens": [
                 "--ng-card-bg",
-                "--ng-card-body-padding",
                 "--ng-card-border-color",
                 "--ng-card-border-topbot-line",
                 "--ng-card-border-width",
                 "--ng-card-color",
-                "--ng-card-footer-padding",
+                "--ng-card-divider-color",
+                "--ng-card-divider-style",
+                "--ng-card-divider-width",
+                "--ng-card-foot-border-top",
+                "--ng-card-foot-gap-x",
+                "--ng-card-foot-gap-y",
+                "--ng-card-foot-pad-y",
                 "--ng-card-gap",
-                "--ng-card-gap-foot",
+                "--ng-card-gap-block",
                 "--ng-card-head-border-bottom",
-                "--ng-card-header-padding",
-                "--ng-card-padding",
+                "--ng-card-head-gap-x",
+                "--ng-card-head-gap-y",
+                "--ng-card-head-pad-y",
+                "--ng-card-pad-x",
                 "--ng-card-section-gap",
-                "--ng-card-shadow",
-                "--ng-card-shadow-hover",
                 "--ng-card-sub-color"
             ],
             "events": [],
@@ -378,9 +445,16 @@
             "slug": "chart",
             "name": "chart",
             "type": "css+js",
-            "version": "1.4",
+            "version": {
+                "css": "1.4.0",
+                "js": "1.4.0"
+            },
+            "compatibleFrom": {
+                "css": "1.4.0",
+                "js": "1.4.0"
+            },
             "status": "stable",
-            "description": "Chart NG. Tier 1 (SCSS): donut/gauge/bars/sparkline. Tier 2 (questo JS): line/area/bar da dati (data-values) con auto-scale, render px (cerchi tondi), hover tooltip + punto/barra attiva, re-render al resize. Zero dipendenze.",
+            "description": "NG Chart. Tier 1 (SCSS): donut/gauge/bars/sparkline. Tier 2 (this JS): line/area/bar from data (data-values) with auto-scale, px render (round circles), hover tooltip + active point/bar, re-render on resize. Zero dependencies.",
             "dependencies": [],
             "classes": [
                 ".ng-chart-",
@@ -420,9 +494,14 @@
             "slug": "chip",
             "name": "Chip",
             "type": "css",
-            "version": "1.0",
+            "version": {
+                "css": "1.0.0"
+            },
+            "compatibleFrom": {
+                "css": "1.0.0"
+            },
             "status": "stable",
-            "description": "Chip/tag inline, variante removable.",
+            "description": "Inline chip/tag, removable variant.",
             "dependencies": [],
             "classes": [
                 ".ng-chip",
@@ -442,7 +521,12 @@
             "slug": "collapse",
             "name": "Collapse",
             "type": "css",
-            "version": "1.0",
+            "version": {
+                "css": "1.0.0"
+            },
+            "compatibleFrom": {
+                "css": "1.0.0"
+            },
             "status": "stable",
             "description": "Contenitore collassabile (height gestita inline dal JS).",
             "dependencies": [],
@@ -459,7 +543,12 @@
             "slug": "count",
             "name": "count",
             "type": "js",
-            "version": "1.0",
+            "version": {
+                "js": "1.0.0"
+            },
+            "compatibleFrom": {
+                "js": "1.0.0"
+            },
             "status": "stable",
             "description": "Character counter enhancer for input and textarea fields, with flexible positioning and DOM-driven initialization.",
             "dependencies": [],
@@ -474,7 +563,12 @@
             "slug": "divider",
             "name": "Divider",
             "type": "css",
-            "version": "1.0",
+            "version": {
+                "css": "1.0.0"
+            },
+            "compatibleFrom": {
+                "css": "1.0.0"
+            },
             "status": "stable",
             "description": "Divisore orizzontale/verticale; half/center/dashed/dotted/with-text; varianti colore.",
             "dependencies": [],
@@ -498,7 +592,14 @@
             "slug": "dropdown",
             "name": "dropdown",
             "type": "css+js",
-            "version": "1.2",
+            "version": {
+                "css": "1.3.1",
+                "js": "1.2.0"
+            },
+            "compatibleFrom": {
+                "css": "1.3.0",
+                "js": "1.2.0"
+            },
             "status": "stable",
             "description": "Dropdown menu with hover/click modes, top-layer (Popover API) positioning with auto flip/clamp, ARIA expanded, ESC close, custom events ng:dropdown:open|close.",
             "dependencies": [],
@@ -521,7 +622,6 @@
                 "--ng-dd-item-padding-y",
                 "--ng-dd-min-width",
                 "--ng-dd-offset",
-                "--ng-dd-shadow",
                 "--ng-dd-transition-speed",
                 "--ng-dd-translate-y"
             ],
@@ -538,7 +638,12 @@
             "slug": "empty",
             "name": "Empty",
             "type": "css",
-            "version": "1.0",
+            "version": {
+                "css": "1.0.0"
+            },
+            "compatibleFrom": {
+                "css": "1.0.0"
+            },
             "status": "stable",
             "description": "Empty state centrato (title + text).",
             "dependencies": [],
@@ -559,9 +664,14 @@
             "slug": "footer",
             "name": "Footer",
             "type": "css",
-            "version": "1.0",
+            "version": {
+                "css": "1.0.0"
+            },
+            "compatibleFrom": {
+                "css": "1.0.0"
+            },
             "status": "stable",
-            "description": "Footer di pagina: grid colonne (auto-fit), nav, bottom bar. Varianti center/right/inline. Responsive. Var scoped.",
+            "description": "Page footer: column grid (auto-fit), nav, bottom bar. Variants center/right/inline. Responsive. Scoped vars.",
             "dependencies": [],
             "classes": [
                 ".ng-btn",
@@ -590,9 +700,16 @@
             "slug": "form",
             "name": "form",
             "type": "css+js",
-            "version": "1.2",
+            "version": {
+                "css": "1.1.0",
+                "js": "1.2.0"
+            },
+            "compatibleFrom": {
+                "css": "1.1.0",
+                "js": "1.2.0"
+            },
             "status": "stable",
-            "description": "Form enhancer: validation helpers, input state, API ngValidate/ngReset/ngSerialize, password toggle delegato (.ng-password-toggle in .ng-input-group, evento ng:form:password-toggle).",
+            "description": "Form enhancer: validation helpers, input state, API ngValidate/ngReset/ngSerialize, delegated password toggle (.ng-password-toggle in .ng-input-group, event ng:form:password-toggle).",
             "dependencies": [],
             "classes": [
                 ".ng-check",
@@ -662,7 +779,12 @@
             "slug": "formatter",
             "name": "formatter",
             "type": "js",
-            "version": "1.0",
+            "version": {
+                "js": "1.0.0"
+            },
+            "compatibleFrom": {
+                "js": "1.0.0"
+            },
             "status": "stable",
             "description": "Output formatter for [data-format]: number, currency, percent, date. Locale-aware via Intl. Public API: ng.formatter.format/refresh.",
             "dependencies": [],
@@ -677,7 +799,14 @@
             "slug": "header",
             "name": "header",
             "type": "css+js",
-            "version": "1.0",
+            "version": {
+                "css": "1.0.1",
+                "js": "1.0.0"
+            },
+            "compatibleFrom": {
+                "css": "1.0.0",
+                "js": "1.0.0"
+            },
             "status": "stable",
             "description": "Responsive header. Moves [data-on-mobile] items into overlay below 768px and restores on desktop. Manages header menus with outside-click + ESC close.",
             "dependencies": [],
@@ -734,9 +863,14 @@
             "slug": "input-group",
             "name": "Input Group",
             "type": "css",
-            "version": "1.1",
+            "version": {
+                "css": "1.1.0"
+            },
+            "compatibleFrom": {
+                "css": "1.1.0"
+            },
             "status": "stable",
-            "description": "Wrapper per input + addons (icone, testo, bottoni) prepend/append, multi-addon, sizes ereditati. Focus-within propagato all'intero gruppo. Stato disabled coerente. Riusa token --ng-input-*. Pattern derivato da .ng-btn-group. Password toggle: .ng-password-toggle (occhio mostra/nascondi, JS in ng_form.js).",
+            "description": "Wrapper for input + addons (icons, text, buttons) prepend/append, multi-addon, inherited sizes. Focus-within propagated to the whole group. Consistent disabled state. Reuses the --ng-input-* tokens. Pattern derived from .ng-btn-group. Password toggle: .ng-password-toggle (show/hide eye, JS in ng_form.js).",
             "dependencies": [],
             "classes": [
                 ".ng-btn",
@@ -767,9 +901,14 @@
             "slug": "list",
             "name": "List",
             "type": "css",
-            "version": "1.0",
+            "version": {
+                "css": "1.1.0"
+            },
+            "compatibleFrom": {
+                "css": "1.1.0"
+            },
             "status": "stable",
-            "description": "Liste e list-item (media/content/action), meta-content. Varianti selectable/divided/bordered/flush/hover/clickable/striped/compact/horizontal/tags/tasks.",
+            "description": "Lists and list-item (media/content/action), meta-content. Variants selectable/divided/bordered/flush/hover/clickable/striped/compact/horizontal/tags/tasks.",
             "dependencies": [],
             "classes": [
                 ".ng-list",
@@ -802,6 +941,7 @@
                 "--ng-list-item-padding",
                 "--ng-list-item-padding-x",
                 "--ng-list-item-padding-y",
+                "--ng-list-selected-bg",
                 "--ng-list-striped-bg",
                 "--ng-task-border-color",
                 "--ng-task-border-width",
@@ -816,9 +956,14 @@
             "slug": "matizer",
             "name": "matizer",
             "type": "js",
-            "version": "1.0",
+            "version": {
+                "js": "1.0.0"
+            },
+            "compatibleFrom": {
+                "js": "1.0.0"
+            },
             "status": "stable",
-            "description": "DOM sorter for [data-order-list]. Tipi: a-z, num, len (+rev). Public API: ng.matizer.sort(), ng.matizer.refresh().",
+            "description": "DOM sorter for [data-order-list]. Types: a-z, num, len (+rev). Public API: ng.matizer.sort(), ng.matizer.refresh().",
             "dependencies": [],
             "classes": [],
             "tokens": [],
@@ -831,7 +976,14 @@
             "slug": "modal",
             "name": "modal",
             "type": "css+js",
-            "version": "1.0",
+            "version": {
+                "css": "1.2.0",
+                "js": "1.0.0"
+            },
+            "compatibleFrom": {
+                "css": "1.1.0",
+                "js": "1.0.0"
+            },
             "status": "stable",
             "description": "Modal/dialog with backdrop, focus trap, return-focus, ARIA dialog roles.",
             "dependencies": [],
@@ -854,10 +1006,11 @@
                 "--ng-modal-gap",
                 "--ng-modal-header-border-bottom",
                 "--ng-modal-height",
+                "--ng-modal-hf-pad-x",
+                "--ng-modal-hf-pad-y",
                 "--ng-modal-max-width",
                 "--ng-modal-padding-body",
                 "--ng-modal-padding-header-footer",
-                "--ng-modal-shadow",
                 "--ng-modal-width",
                 "--ng-modal-z"
             ],
@@ -876,7 +1029,14 @@
             "slug": "overlay",
             "name": "overlay",
             "type": "css+js",
-            "version": "1.1.0",
+            "version": {
+                "css": "1.0.1",
+                "js": "1.1.0"
+            },
+            "compatibleFrom": {
+                "css": "1.0.1",
+                "js": "1.1.0"
+            },
             "status": "stable",
             "description": "Drawer/offcanvas universale (left/right): ESC, click backdrop, Tab focus-trap, ARIA dialog.",
             "dependencies": [],
@@ -909,9 +1069,14 @@
             "slug": "page-loader",
             "name": "Page Loader",
             "type": "css",
-            "version": "1.0",
+            "version": {
+                "css": "1.0.0"
+            },
+            "compatibleFrom": {
+                "css": "1.0.0"
+            },
             "status": "stable",
-            "description": "Overlay fullscreen di caricamento (fixed, inset:0) con blur. Varianti dark e is-hidden (per nascondere quando pronto). Var scoped overridabili.",
+            "description": "Fullscreen loading overlay (fixed, inset:0) with blur. Variants dark and is-hidden (to hide when ready). Overridable scoped vars.",
             "dependencies": [],
             "classes": [
                 ".ng-page-loader"
@@ -931,9 +1096,14 @@
             "slug": "pagination",
             "name": "Pagination",
             "type": "css",
-            "version": "1.0",
+            "version": {
+                "css": "1.0.0"
+            },
+            "compatibleFrom": {
+                "css": "1.0.0"
+            },
             "status": "stable",
-            "description": "Paginazione a struttura stabile (slot fissi per evitare layout shift). Page list, page-size select, elementi page/ prev/next/first/last/ellipsis, stati active/disabled, varianti allineamento e size. SCSS-only.",
+            "description": "Pagination with a stable structure (fixed slots to avoid layout shift). Page list, page-size select, page/ prev/next/first/last/ellipsis elements, active/disabled states, alignment and size variants. SCSS-only.",
             "dependencies": [],
             "classes": [
                 ".ng-ellipsis",
@@ -972,9 +1142,14 @@
             "slug": "panel",
             "name": "Panel",
             "type": "css",
-            "version": "1.0",
+            "version": {
+                "css": "1.0.0"
+            },
+            "compatibleFrom": {
+                "css": "1.0.0"
+            },
             "status": "stable",
-            "description": "Container strutturale/funzionale per raggruppare contenuti in sezioni (settings, dashboard, filtri). Opposto della card: piatto, bordato, denso, niente shadow/hover-lift. Sub: head/body/foot. Varianti: brand header band (.ng-panel-<color>) · .ng-panel-flat · size sm/lg · collassabile .ng-panel-collapsible (riusa ng_toggle.js + .ng-collapse, 0 JS nuovo). Colori da $ng-colors (token L1/L2). Radius md via fallback-at-use.",
+            "description": "Structural/functional container to group content into sections (settings, dashboard, filters). Opposite of the card: flat, bordered, dense, no shadow/hover-lift. Sub: head/body/foot. Variants: brand header band (.ng-panel-<color>) · .ng-panel-flat · size sm/lg · collapsible .ng-panel-collapsible (reuses ng_toggle.js + .ng-collapse, 0 new JS). Colors from $ng-colors (L1/L2 tokens). Radius md via fallback-at-use.",
             "dependencies": [],
             "classes": [
                 ".ng-collapse",
@@ -1007,7 +1182,14 @@
             "slug": "popover",
             "name": "popover",
             "type": "css+js",
-            "version": "1.0",
+            "version": {
+                "css": "1.0.0",
+                "js": "1.0.0"
+            },
+            "compatibleFrom": {
+                "css": "1.0.0",
+                "js": "1.0.0"
+            },
             "status": "stable",
             "description": "Anchored popover with click/hover/focus triggers, 12 placements, auto-flip, viewport clamp, portal positioning, optional modal mode with focus trap, custom events ng:popover:open|close.",
             "dependencies": [],
@@ -1025,7 +1207,6 @@
                 "--ng-pop-min-width",
                 "--ng-pop-offset",
                 "--ng-pop-padding",
-                "--ng-pop-shadow",
                 "--ng-pop-transition-speed",
                 "--ng-pop-translate"
             ],
@@ -1042,9 +1223,14 @@
             "slug": "progress",
             "name": "Progress",
             "type": "css",
-            "version": "1.0",
+            "version": {
+                "css": "1.0.0"
+            },
+            "compatibleFrom": {
+                "css": "1.0.0"
+            },
             "status": "stable",
-            "description": "Barra di avanzamento. Varianti colore via --ng-progress-fill.",
+            "description": "Progress bar. Color variants via --ng-progress-fill.",
             "dependencies": [],
             "classes": [
                 ".ng-progress",
@@ -1066,7 +1252,12 @@
             "slug": "prose",
             "name": "Prose",
             "type": "css",
-            "version": "1.0",
+            "version": {
+                "css": "1.0.0"
+            },
+            "compatibleFrom": {
+                "css": "1.0.0"
+            },
             "status": "paused",
             "description": null,
             "dependencies": [],
@@ -1156,9 +1347,16 @@
             "slug": "range",
             "name": "range",
             "type": "css+js",
-            "version": "1.2",
+            "version": {
+                "css": "1.3.1",
+                "js": "1.2.0"
+            },
+            "compatibleFrom": {
+                "css": "1.3.1",
+                "js": "1.2.0"
+            },
             "status": "stable",
-            "description": "Range slider flat (single + dual-thumb): fill colorato dinamico, output number, marks, ARIA, verticale (CSS), tacche opt-in (.ng-range-ticks), hue/alpha colorpicker (formati hex|rgb|css-rgb|css-rgba|cmyk + copia). data-jump=step.",
+            "description": "Flat range slider (single + dual-thumb): dynamic colored fill, number output, marks, ARIA, vertical (CSS), opt-in ticks (.ng-range-ticks), hue/alpha colorpicker (formats hex|rgb|css-rgb|css-rgba|cmyk + copy). data-jump=step.",
             "dependencies": [],
             "classes": [
                 ".ng-label",
@@ -1213,9 +1411,16 @@
             "slug": "select-orion",
             "name": "select-orion",
             "type": "css+js",
-            "version": "1.0",
+            "version": {
+                "css": "1.0.1",
+                "js": "1.0.0"
+            },
+            "compatibleFrom": {
+                "css": "1.0.1",
+                "js": "1.0.0"
+            },
             "status": "stable",
-            "description": "Select avanzato (select2-like) come enhancement del <select> nativo — componente a parte, nessuna collisione con .ng-select del form. Single + multi (chip), ricerca locale, gruppi (optgroup), opzioni ricche (icona Phosphor + sublabel), placeholder, clear, ARIA combobox/listbox, submit nativo, sync opzionale via ng_state. No innerHTML (anti-XSS).",
+            "description": "Advanced select (select2-like) as an enhancement of the native <select> — separate component, no collision with the form's .ng-select. Single + multi (chip), local search, groups (optgroup), rich options (Phosphor icon + sublabel), placeholder, clear, ARIA combobox/listbox, native submit, optional sync via ng_state. No innerHTML (anti-XSS).",
             "dependencies": [],
             "classes": [
                 ".ng-chip",
@@ -1271,7 +1476,14 @@
             "slug": "sidebar",
             "name": "sidebar",
             "type": "css+js",
-            "version": "1.1",
+            "version": {
+                "css": "1.2.1",
+                "js": "1.1.0"
+            },
+            "compatibleFrom": {
+                "css": "1.2.1",
+                "js": "1.1.0"
+            },
             "status": "stable",
             "description": "Sidebar layout/drawer with submenu disclosure, ARIA expanded/hidden/controls, listener tracking, optional overlay.",
             "dependencies": [
@@ -1317,9 +1529,14 @@
             "slug": "signature",
             "name": "Brand Signature (button + badge)",
             "type": "css",
-            "version": "1.0",
+            "version": {
+                "css": "1.0.0"
+            },
+            "compatibleFrom": {
+                "css": "1.0.0"
+            },
             "status": "experimental",
-            "description": "Firme visive che distinguono NG dall'effetto Bootstrap 5. Applicate solo a .ng-btn e .ng-badge, opt-out con .ng-flat su un'istanza: C. Radius 3px         → silhouette \"precision\", baseline master --ng-radius D. Padding premium    → respiro tipografico, ogni size scalata E. Microtipografia    → weight 600 + tracking +.02em (no uppercase) Bar  (hover)          → barra animata top o bottom, 4 direzioni opt-in (.ng-btn-bar + posizione + direzione). Vedi sotto. .ng-flat              → opt-out: radius sm (5px), padding default, tipografia default, niente bar (= look BS5-like). Token-based: 0 hex hardcoded. Importato DOPO ng_button/ng_badge in _ng_components.scss per garantire l'override.",
+            "description": "Visual signatures that distinguish NG from the Bootstrap 5 look. Applied only to .ng-btn and .ng-badge, opt-out with .ng-flat on an instance: C. Radius 3px         → \"precision\" silhouette, master baseline --ng-radius D. Premium padding    → typographic breathing room, each size scaled E. Microtypography    → weight 600 + tracking +.02em (no uppercase) Bar  (hover)          → animated top or bottom bar, 4 opt-in directions (.ng-btn-bar + position + direction). See below. .ng-flat              → opt-out: radius sm (5px), default padding, default typography, no bar (= BS5-like look). Token-based: 0 hardcoded hex. Imported AFTER ng_button/ng_badge in _ng_components.scss to guarantee the override.",
             "dependencies": [],
             "classes": [
                 ".ng-badge",
@@ -1355,9 +1572,14 @@
             "slug": "skeleton",
             "name": "Skeleton",
             "type": "css",
-            "version": "1.0",
+            "version": {
+                "css": "1.0.0"
+            },
+            "compatibleFrom": {
+                "css": "1.0.0"
+            },
             "status": "stable",
-            "description": "Placeholder di caricamento con shimmer. Elementi line/rect/ circle, width utilities, variante compact. Container .ng-skeleton opzionale (le var hanno fallback). SCSS-only.",
+            "description": "Loading placeholder with shimmer. Elements line/rect/ circle, width utilities, compact variant. Container .ng-skeleton optional (vars have fallback). SCSS-only.",
             "dependencies": [],
             "classes": [
                 ".ng-skeleton",
@@ -1380,7 +1602,14 @@
             "slug": "snackbar",
             "name": "snackbar",
             "type": "css+js",
-            "version": "1.0",
+            "version": {
+                "css": "1.0.0",
+                "js": "1.0.0"
+            },
+            "compatibleFrom": {
+                "css": "1.0.0",
+                "js": "1.0.0"
+            },
             "status": "stable",
             "description": "Snackbar notifier with auto-dismiss timer, role=status + aria-live=polite for assistive tech.",
             "dependencies": [],
@@ -1398,7 +1627,6 @@
                 "--ng-snackbar-gap",
                 "--ng-snackbar-offset",
                 "--ng-snackbar-padding",
-                "--ng-snackbar-shadow",
                 "--ng-snackbar-transition",
                 "--ng-snackbar-z"
             ],
@@ -1412,9 +1640,14 @@
             "slug": "spinner",
             "name": "Spinner",
             "type": "css",
-            "version": "1.0",
+            "version": {
+                "css": "1.0.0"
+            },
+            "compatibleFrom": {
+                "css": "1.0.0"
+            },
             "status": "stable",
-            "description": "Spinner circolare (border + rotazione). Size sm/lg, center. Integrazione con .ng-btn / .ng-auto-disable in stato is-loading (posizioni spinner-right/left/top/bottom). SCSS-only.",
+            "description": "Circular spinner (border + rotation). Size sm/lg, center. Integration with .ng-btn / .ng-auto-disable in the is-loading state (positions spinner-right/left/top/bottom). SCSS-only.",
             "dependencies": [],
             "classes": [
                 ".ng-auto-disable",
@@ -1437,7 +1670,12 @@
             "slug": "state",
             "name": "state",
             "type": "js",
-            "version": "1.0.0",
+            "version": {
+                "js": "1.0.0"
+            },
+            "compatibleFrom": {
+                "js": "1.0.0"
+            },
             "status": "stable",
             "description": "State manager – dual pipeline (runtime mirror + dataset snapshot) with TTL, watch and tab sync",
             "dependencies": [],
@@ -1454,7 +1692,12 @@
             "slug": "steps",
             "name": "Steps",
             "type": "css",
-            "version": "1.0",
+            "version": {
+                "css": "1.0.0"
+            },
+            "compatibleFrom": {
+                "css": "1.0.0"
+            },
             "status": "stable",
             "description": "Steps/wizard: stili classic e bar, stati is-active/is-done, size.",
             "dependencies": [],
@@ -1488,9 +1731,16 @@
             "slug": "table",
             "name": "table-v2",
             "type": "css+js",
-            "version": "2.4.2",
+            "version": {
+                "css": "2.4.5",
+                "js": "2.5.0"
+            },
+            "compatibleFrom": {
+                "css": "2.4.5",
+                "js": "2.5.0"
+            },
             "status": "stable",
-            "description": "Advanced table: local/remote dataset, sort, search, filters, page-size, column toggle, row selection (delegated), sub-table/detail-row (data-table-expandable, slot libero + lazy via ng:table:expand), persist via localStorage. API: reload/reset/getState/setPage/setLimit/search/export/expandRow/collapseRow/toggleRow/isExpanded.",
+            "description": "Advanced table: local/remote dataset, sort, search, filters, page-size, column toggle, row selection (delegated), sub-table/detail-row (data-table-expandable, free slot + lazy via ng:table:expand), persist via localStorage. API: reload (invalidates and re-fills the open sub-rows)/reset/getState/setPage/setLimit/search/export/expandRow/collapseRow/toggleRow/isExpanded/refreshDetails/reloadRow.",
             "dependencies": [],
             "classes": [
                 ".ng-col-grow",
@@ -1529,6 +1779,7 @@
                 ".ng-table-table",
                 ".ng-table-title",
                 ".ng-table-wrapper",
+                ".ng-tcol-center",
                 ".ng-tcol-mono",
                 ".ng-tcol-num",
                 ".ng-tcol-trunc",
@@ -1578,7 +1829,14 @@
             "slug": "tabs",
             "name": "tabs",
             "type": "css+js",
-            "version": "1.0",
+            "version": {
+                "css": "1.1.0",
+                "js": "1.0.0"
+            },
+            "compatibleFrom": {
+                "css": "1.1.0",
+                "js": "1.0.0"
+            },
             "status": "stable",
             "description": "Tablist with role=tab/tablist, aria-selected/controls, keyboard nav (arrows/Home/End), DOM-driven init.",
             "dependencies": [],
@@ -1617,6 +1875,7 @@
                 "--ng-tab-underline-height",
                 "--ng-tabs-nav-border",
                 "--ng-tabs-nav-gap",
+                "--ng-tabs-nav-pad-x",
                 "--ng-tabs-vertical-border"
             ],
             "events": [],
@@ -1629,9 +1888,14 @@
             "slug": "theme",
             "name": "theme",
             "type": "js",
-            "version": "1.1",
+            "version": {
+                "js": "1.1.0"
+            },
+            "compatibleFrom": {
+                "js": "1.1.0"
+            },
             "status": "stable",
-            "description": "Switch tema via [data-theme] su <html>, persistito in localStorage + evento ng:theme:change. Tema SEMPRE esplicito (nessun auto/OS): default light.",
+            "description": "Theme switch via [data-theme] on <html>, persisted in localStorage + ng:theme:change event. Theme ALWAYS explicit (no auto/OS): default light.",
             "dependencies": [],
             "classes": [],
             "tokens": [],
@@ -1646,7 +1910,14 @@
             "slug": "toggle",
             "name": "toggle",
             "type": "css+js",
-            "version": "1.0",
+            "version": {
+                "css": "1.0.0",
+                "js": "1.0.0"
+            },
+            "compatibleFrom": {
+                "css": "1.0.0",
+                "js": "1.0.0"
+            },
             "status": "stable",
             "description": "Toggle disclosure for collapsibles. ARIA expanded/controls, keyboard Enter/Space, optional state persistence via ng.state.",
             "dependencies": [],
@@ -1664,9 +1935,16 @@
             "slug": "tooltip",
             "name": "tooltip",
             "type": "css+js",
-            "version": "1.0",
+            "version": {
+                "css": "1.2.0",
+                "js": "1.2.0"
+            },
+            "compatibleFrom": {
+                "css": "1.2.0",
+                "js": "1.2.0"
+            },
             "status": "stable",
-            "description": "Tooltip on hover/focus with automatic positioning, role=tooltip and aria-describedby on trigger.",
+            "description": "Tooltip on hover/focus with viewport-aware positioning (auto-flip + clamp, never clipped), role=tooltip and aria-describedby on trigger. Opt-in HTML content via data-tooltip-html (trusted content only).",
             "dependencies": [],
             "classes": [
                 ".ng-tooltip",
@@ -1677,8 +1955,7 @@
                 "--ng-tooltip-color",
                 "--ng-tooltip-font-size",
                 "--ng-tooltip-padding-x",
-                "--ng-tooltip-padding-y",
-                "--ng-tooltip-shadow"
+                "--ng-tooltip-padding-y"
             ],
             "events": [],
             "sources": {
@@ -1687,12 +1964,75 @@
             }
         },
         {
+            "slug": "treeview",
+            "name": "treeview",
+            "type": "css+js",
+            "version": {
+                "css": "1.1.0",
+                "js": "1.1.0"
+            },
+            "compatibleFrom": {
+                "css": "1.0.0",
+                "js": "1.0.0"
+            },
+            "status": "stable",
+            "description": "Expandable hierarchical tree (file-tree): nested nodes, caret toggle (icon override via data-expand-icon/data-collapse-icon), author-chosen node icon, opt-in selection (data-treeview-selectable), opt-in checkbox (data-treeview-checkable=all|leaves, tri-state folders), group titles. Events ng:treeview:expand|collapse|select|check. API expand/collapse/toggle/expandAll/collapseAll/select/check/getChecked.",
+            "dependencies": [],
+            "classes": [
+                ".ng-treeview",
+                ".ng-treeview-check",
+                ".ng-treeview-check-spacer",
+                ".ng-treeview-children",
+                ".ng-treeview-collapse",
+                ".ng-treeview-group",
+                ".ng-treeview-icon",
+                ".ng-treeview-item",
+                ".ng-treeview-label",
+                ".ng-treeview-node",
+                ".ng-treeview-title",
+                ".ng-treeview-toggle",
+                ".ng-treeview-toggle-spacer"
+            ],
+            "tokens": [
+                "--ng-tree-check-accent",
+                "--ng-tree-check-size",
+                "--ng-tree-gap",
+                "--ng-tree-hover-bg",
+                "--ng-tree-icon-color",
+                "--ng-tree-indent",
+                "--ng-tree-item-pad-x",
+                "--ng-tree-item-pad-y",
+                "--ng-tree-label-color",
+                "--ng-tree-muted",
+                "--ng-tree-row-gap",
+                "--ng-tree-selected-bg",
+                "--ng-tree-selected-color",
+                "--ng-tree-toggle-size",
+                "--ng-tree-transition"
+            ],
+            "events": [
+                "ng:treeview:check",
+                "ng:treeview:collapse",
+                "ng:treeview:expand",
+                "ng:treeview:select"
+            ],
+            "sources": {
+                "scss": "components/_ng_treeview.scss",
+                "js": "ng_treeview.js"
+            }
+        },
+        {
             "slug": "ws",
             "name": "ws",
             "type": "js",
-            "version": "1.1.0",
+            "version": {
+                "js": "1.1.0"
+            },
+            "compatibleFrom": {
+                "js": "1.1.0"
+            },
             "status": "stable",
-            "description": "Client WebSocket singleton: connect/emit/on con keep-alive e reconnect automatico.",
+            "description": "WebSocket singleton client: connect/emit/on with keep-alive and automatic reconnect.",
             "dependencies": [],
             "classes": [],
             "tokens": [],

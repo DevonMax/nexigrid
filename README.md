@@ -14,28 +14,24 @@ Include the compiled stylesheet and the JavaScript modules you need:
 <link rel="stylesheet" href="assets/css/nexigrid.min.css">
 
 <!-- Core (required) -->
-<script type="module" src="assets/js/ng_core.js"></script>
+<script type="module" src="assets/js/min/ng_core.js"></script>
 
 <!-- Load only the components you use… -->
-<script type="module" src="assets/js/ng_modal.js"></script>
+<script type="module" src="assets/js/min/ng_modal.js"></script>
 
 <!-- …or the full bundle -->
 <script type="module" src="assets/js/ng-all.min.js"></script>
 ```
 
-### Building from source
-
-The SCSS entry point is `assets/css/ng_index.scss`. Import it to customize
-design tokens and compile your own stylesheet:
-
-```scss
-@use "assets/css/ng_index";
-```
+This repository ships the **compiled distribution**: the bundled stylesheet
+(`assets/css/nexigrid.css` / `.min.css` + source map) and the JavaScript
+modules (`assets/js/min/*.js` + `assets/js/ng-all.min.js`). No build step is
+required.
 
 ## Theming
 
-Components are driven by CSS custom properties (design tokens) defined in
-`assets/css/_ng_variables.scss`. Override them at `:root` or per instance —
+Components are driven by CSS custom properties (design tokens) exposed at
+`:root` in the compiled stylesheet. Override them at `:root` or per instance —
 runtime theming requires no rebuild.
 
 ## Components
